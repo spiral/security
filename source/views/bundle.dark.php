@@ -1,0 +1,1 @@
+<dark:use path="guard:*" namespace="guard"/>
