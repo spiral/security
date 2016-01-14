@@ -108,17 +108,17 @@ class RoleManager extends Component implements RolesInterface
 
         if (isset($this->associations[$role][$permission])) {
             //O(1) check
-            return true;
+            return $this->associations[$role][$permission];
         }
 
         //Checking using star syntax
-        foreach ($this->associations[$role] as $pattern) {
+        foreach ($this->associations[$role] as $pattern => $behaviour) {
             if ($this->starPatterns->matches($permission, $pattern)) {
-                return true;
+                return $behaviour;
             }
         }
 
-        return false;
+        return GuardInterface::UNDEFINED;
     }
 
     /**

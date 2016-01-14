@@ -17,9 +17,13 @@ interface GuardInterface
      */
     const NS_SEPARATOR = '.';
 
-    const ALWAYS_ALLOW  = 0;
-    const ALWAYS_FORBID = 1;
-    const FOLLOW_RULES  = 2;
+    /**
+     * Role/permissions association behaviours.
+     */
+    const UNDEFINED     = 1;
+    const ALWAYS_ALLOW  = 1;
+    const ALWAYS_FORBID = 2;
+    const FOLLOW_RULES  = 3;
 
     /**
      * Check if given permission are allowed. Has to check associations between permission and
