@@ -13,6 +13,9 @@ use Spiral\Guard\ActorInterface;
 use Spiral\Guard\Exceptions\PermissionException;
 use Spiral\Guard\RulesInterface;
 
+/**
+ * Provides ability to associate custom business rule with a given permission or pattern.
+ */
 class RuleManager extends Component implements RulesInterface
 {
     /**

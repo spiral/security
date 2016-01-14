@@ -12,7 +12,7 @@ use Spiral\Guard\Exceptions\PermissionException;
 /**
  * Rules supplied in a form of class name will be resolved using ContainerInterface.
  *
- * Rule signature must match: RuleInterface (permission, actor, context!);
+ * Rule signature must match: RuleInterface (permission, actor, context);
  */
 interface RulesInterface
 {
