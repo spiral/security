@@ -28,6 +28,7 @@ class Library implements LibraryInterface
     protected $roles = [];
 
     /**
+     * @todo add ability to specify permissions in a form "permission.[sub1,sub2,sub3]"
      * @return array
      */
     public function definePermissions()
