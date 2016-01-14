@@ -20,7 +20,7 @@ interface GuardInterface
     /**
      * Role/permissions association behaviours.
      */
-    const UNDEFINED        = 1;
+    const UNDEFINED        = 0;
     const ALWAYS_ALLOW     = 1;
     const ALWAYS_FORBID    = 2;
     const FOLLOW_THE_RULES = 3;

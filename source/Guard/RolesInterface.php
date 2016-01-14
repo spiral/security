@@ -44,6 +44,8 @@ interface RolesInterface
     /**
      * Get role/permission behaviour.
      *
+     *
+     * @see GuardInterface::UNDEFINED
      * @see GuardInterface::ALWAYS_ALLOW
      * @see GuardInterface::ALWAYS_FORBID
      * @see GuardInterface::FOLLOW_THE_RULES
@@ -64,9 +66,11 @@ interface RolesInterface
      *
      * Attention, role must be added previously!
      *
+     * You can always create composite rules by creating decorating rule.
+     *
      * @see GuardInterface::ALWAYS_ALLOW
      * @see GuardInterface::ALWAYS_FORBID
-     * @see GuardInterface::FOLLOW_THE_RULES
+     * @see GuardInterface::CONTEXT_SPECIFIC
      * @see addRole()
      * @param string       $role
      * @param string|array $permission
