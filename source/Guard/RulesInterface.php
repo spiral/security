@@ -34,6 +34,9 @@ interface RulesInterface
      *     return $actor instanceof User && $context['post']->author_id == $actor->id;
      * });
      *
+     * Example:
+     * new CompoundRule(CompoundRule::ALL_TRUE, [Rule1::class, Rule2::class, ...]);
+     *
      * @param string   $permission
      * @param callable $rule
      * @throws PermissionException
