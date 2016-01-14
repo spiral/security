@@ -69,7 +69,7 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
                 case self::ALWAYS_FORBID:
                     return true;
                 case self::FOLLOW_THE_RULES:
-                    if ($this->checkRules($permission, $context)) {
+                    if ($this->checkRule($permission, $context)) {
                         return true;
                     }
             }
@@ -107,9 +107,9 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
      * @param array  $context
      * @return bool
      */
-    private function checkRules($permission, array $context)
+    private function checkRule($permission, array $context)
     {
-        if (!$this->rules->hasRules($permission)) {
+        if (!$this->rules->hasRule($permission)) {
             /*
              * We are not allowing users to set FOLLOW_RULES behaviour without associated rule,
              * this is not safe.

@@ -50,7 +50,7 @@ class RuleManager extends Component implements RulesInterface
     /**
      * {@inheritdoc}
      */
-    public function hasRules($permission)
+    public function hasRule($permission)
     {
         if (isset($this->rules[$permission])) {
             return true;
@@ -70,9 +70,9 @@ class RuleManager extends Component implements RulesInterface
      *
      * @return $this
      */
-    public function addRule($permission, $rule)
+    public function setRule($permission, $rule)
     {
-        $this->rules[$permission][] = $rule;
+        $this->rules[$permission] = $rule;
 
         return $this;
     }
@@ -82,16 +82,13 @@ class RuleManager extends Component implements RulesInterface
      *
      * @return $this
      */
-    public function removeRule($permission, $rule)
+    public function removeRole($permission)
     {
-        if (!$this->hasRules($permission)) {
+        if (!$this->hasRule($permission)) {
             throw new PermissionException("Undefined permission {$permission}.");
         }
 
-        $this->rules[$permission] = array_filter($this->rules[$permission],
-            function ($element) use ($rule) {
-                return $element != $rule;
-            });
+        unset($this->rules[$permission]);
 
         return $this;
     }
@@ -101,44 +98,37 @@ class RuleManager extends Component implements RulesInterface
      */
     public function check($permission, ActorInterface $actor, array $context)
     {
-        foreach ($this->getRules($permission) as $rule) {
-            if (is_string($rule)) {
-                //todo: needs unification (InvokerInterface)
-                $rule = $this->container->get($rule);
-            }
+        $rule = $this->getRule($permission);
 
-            if (is_array($rule)) {
-                if (is_string($rule[0])) {
-                    $rule[0] = $this->container->get($rule[0]);
-                }
-            }
+        //todo: needs unification (InvokerInterface)
+        if (is_string($rule)) {
+            $rule = $this->container->get($rule);
+        }
 
-            if (call_user_func($rule, $permission, $actor, $context) == true) {
-                return true;
+        if (is_array($rule)) {
+            if (is_string($rule[0])) {
+                $rule[0] = $this->container->get($rule[0]);
             }
         }
 
-        return false;
+        return call_user_func($rule, $permission, $actor, $context) == true;
     }
 
     /**
      * Get every associated permission rule. Generator.
      *
      * @param string $permission
-     * @return array
+     * @return callable
+     * @throws PermissionException
      */
-    private function getRules($permission)
+    private function getRule($permission)
     {
-        if (!$this->hasRules($permission)) {
-            throw new PermissionException("Undefined permission {$permission}.");
-        }
-
-        foreach ($this->rules as $pattern => $rules) {
+        foreach ($this->rules as $pattern => $rule) {
             if ($pattern == $permission || $this->starPatterns->matches($permission, $pattern)) {
-                foreach ($rules as $rule) {
-                    yield $rule;
-                }
+                return $rule;
             }
         }
+
+        throw new PermissionException("Undefined permission {$permission}.");
     }
 }

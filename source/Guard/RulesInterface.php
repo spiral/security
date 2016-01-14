@@ -22,15 +22,15 @@ interface RulesInterface
      * @param string $permission
      * @return bool
      */
-    public function hasRules($permission);
+    public function hasRule($permission);
 
     /**
      * Associate rule with a given permission. Rule can be supplied in callable form. Star
      * syntax are supported.
      *
      * Example:
-     * $this->addRule('post.*', Rules\PostRule::class);
-     * $this->addRule('post.*', function($permission, $actor, $context) {
+     * $this->setRule('post.*', Rules\PostRule::class);
+     * $this->setRule('post.*', function($permission, $actor, $context) {
      *     return $actor instanceof User && $context['post']->author_id == $actor->id;
      * });
      *
@@ -41,16 +41,15 @@ interface RulesInterface
      * @param callable $rule
      * @throws PermissionException
      */
-    public function addRule($permission, $rule);
+    public function setRule($permission, $rule);
 
     /**
      * Remove previously associated permission rule.
      *
-     * @param string   $permission
-     * @param callable $rule
+     * @param string $permission
      * @throws PermissionException
      */
-    public function removeRule($permission, $rule);
+    public function removeRole($permission);
 
     /**
      * Check permission using set of registered rules.
