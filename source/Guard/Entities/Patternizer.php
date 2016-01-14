@@ -10,9 +10,11 @@ namespace Spiral\Guard\Entities;
 /**
  * Provides ability to process permissions as star based patterns.
  *
- * Example: post.*
+ * Example:
+ * post.*
+ * post.(save|delete)
  */
-class StarPatterns
+class Patternizer
 {
     /**
      * @param string $string
@@ -20,7 +22,7 @@ class StarPatterns
      */
     public function isPattern($string)
     {
-        return strpos($string, '*') !== false;
+        return strpos($string, '*') !== false || strpos($string, '|') !== false;
     }
 
     /**

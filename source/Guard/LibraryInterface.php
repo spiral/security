@@ -16,7 +16,7 @@ interface LibraryInterface
     const ALWAYS_ALLOW     = GuardInterface::ALWAYS_ALLOW;
     const ALWAYS_FORBID    = GuardInterface::ALWAYS_FORBID;
     const FOLLOW_THE_RULES = GuardInterface::FOLLOW_THE_RULES;
-    const USE_RULES        = GuardInterface::FOLLOW_THE_RULES;
+    const RULE_BASED       = GuardInterface::FOLLOW_THE_RULES;
     const CONTEXT_SPECIFIC = GuardInterface::FOLLOW_THE_RULES;
 
     /**

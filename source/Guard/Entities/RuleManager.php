@@ -21,7 +21,7 @@ class RuleManager extends Component implements RulesInterface
     private $rules = [];
 
     /**
-     * @var StarPatterns
+     * @var Patternizer
      */
     private $starPatterns = null;
 
@@ -34,14 +34,14 @@ class RuleManager extends Component implements RulesInterface
      * RuleManager constructor.
      *
      * @param ContainerInterface $container
-     * @param StarPatterns|null  $starPatterns
+     * @param Patternizer|null   $starPatterns
      */
-    public function __construct(ContainerInterface $container, StarPatterns $starPatterns = null)
+    public function __construct(ContainerInterface $container, Patternizer $starPatterns = null)
     {
         $this->container = $container;
 
         if (empty($starPatterns)) {
-            $starPatterns = new StarPatterns();
+            $starPatterns = new Patternizer();
         }
 
         $this->starPatterns = $starPatterns;

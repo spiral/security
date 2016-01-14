@@ -33,17 +33,17 @@ class RoleManager extends Component implements RolesInterface
     private $associations = [];
 
     /**
-     * @var StarPatterns
+     * @var Patternizer
      */
     private $starPatterns = null;
 
     /**
-     * @param StarPatterns|null $starPatterns
+     * @param Patternizer|null $starPatterns
      */
-    public function __construct(StarPatterns $starPatterns = null)
+    public function __construct(Patternizer $starPatterns = null)
     {
         if (empty($starPatterns)) {
-            $starPatterns = new StarPatterns();
+            $starPatterns = new Patternizer();
         }
 
         $this->starPatterns = $starPatterns;
