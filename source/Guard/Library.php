@@ -23,12 +23,9 @@ class Library implements LibraryInterface
     protected $rules = [];
 
     /**
-     * Try to avoid supplying role-permissions associations on code level, use Albus or other
-     * dynamic guard library to configure associations.
-     *
      * @var array
      */
-    protected $associations = [];
+    protected $roles = [];
 
     /**
      * @return array
@@ -49,8 +46,8 @@ class Library implements LibraryInterface
     /**
      * @return array
      */
-    public function defineAssociations()
+    public function defineRoles()
     {
-        return $this->associations;
+        return $this->roles;
     }
 }

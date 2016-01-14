@@ -24,6 +24,7 @@ interface GuardInterface
     const ALWAYS_ALLOW     = 1;
     const ALWAYS_FORBID    = 2;
     const FOLLOW_THE_RULES = 3;
+    const USE_RULES        = self::FOLLOW_THE_RULES;
     const CONTEXT_SPECIFIC = self::FOLLOW_THE_RULES;
 
     /**
