@@ -50,7 +50,7 @@ class RuleManager extends Component implements RulesInterface
     /**
      * {@inheritdoc}
      */
-    public function hasPermission($permission)
+    public function hasRules($permission)
     {
         if (isset($this->rules[$permission])) {
             return true;
@@ -84,7 +84,7 @@ class RuleManager extends Component implements RulesInterface
      */
     public function removeRule($permission, $rule)
     {
-        if (!$this->hasPermission($permission)) {
+        if (!$this->hasRules($permission)) {
             throw new PermissionException("Undefined permission {$permission}.");
         }
 
@@ -129,7 +129,7 @@ class RuleManager extends Component implements RulesInterface
      */
     private function getRules($permission)
     {
-        if (!$this->hasPermission($permission)) {
+        if (!$this->hasRules($permission)) {
             throw new PermissionException("Undefined permission {$permission}.");
         }
 

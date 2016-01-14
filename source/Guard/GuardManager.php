@@ -10,7 +10,10 @@ namespace Spiral\Guard;
 use Interop\Container\ContainerInterface;
 use Spiral\Core\Component;
 use Spiral\Core\Container\SingletonInterface;
-use Spiral\Guard\Entities\AssociationManager;
+use Spiral\Core\FactoryInterface;
+use Spiral\Core\HippocampusInterface;
+use Spiral\Guard\Configs\GuardConfig;
+use Spiral\Guard\Entities\RoleManager;
 use Spiral\Guard\Entities\RuleManager;
 
 /**
@@ -18,18 +21,61 @@ use Spiral\Guard\Entities\RuleManager;
  */
 class GuardManager extends Component implements SingletonInterface
 {
+    /**
+     * Declarative singleton (by default).
+     */
     const SINGLETON = self::class;
 
     /**
-     * Needed for rule manager.
-     *
-     * @var ContainerInterface
+     * Memory section.
      */
-    protected $container = null;
+    const MEMORY = 'guard';
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var GuardConfig
+     */
+    private $config = null;
+
+    /**
+     * @var HippocampusInterface
+     */
+    protected $memory = null;
+
+    /**
+     * @var FactoryInterface
+     */
+    protected $factory = null;
+
+    /**
+     * @param GuardConfig          $config
+     * @param HippocampusInterface $memory
+     * @param FactoryInterface     $factory
+     */
+    public function __construct(
+        GuardConfig $config,
+        HippocampusInterface $memory,
+        FactoryInterface $factory
+    ) {
+        $this->config = $config;
+        $this->memory = $memory;
+        $this->factory = $factory;
+
+        $this->initLibraries();
+    }
+
+    /**
+     * Mount guard library (it's permissions, rules and roles). Library information will not be
+     * cached.
+     *
+     * Attention, you will have to drop already initiated Role and Rule manages manually!
+     *
+     * @see reload()
+     * @param LibraryInterface $interface
+     * @return $this
+     */
+    public function register(LibraryInterface $interface)
     {
-        $this->container = $container;
+        return $this;
     }
 
     /**
@@ -40,30 +86,70 @@ class GuardManager extends Component implements SingletonInterface
      *
      * Example:
      * $container->bind(
-     *      AssociationsInterface::$class,
-     *      $guardManager->reload->associationManager()
+     *      RolesInterface::$class,
+     *      $guardManager->reload()->roleManager()
      * );
+     *
+     * Attention #2, libraries mounted to guard manager manually has to be re-added after reload.
      *
      * @return $this
      */
     public function reload()
     {
+        $this->initLibraries(true);
+
         return $this;
     }
 
     /**
-     * @return AssociationManager
+     * Get list of registered permissions in a form of array. Permissions list are library driven
+     * and might not include dynamic permissions.
+     *
+     * @return array
      */
-    public function associationManager()
+    public function getPermissions()
     {
-        return new AssociationManager([]);
+        //todo: crap
     }
 
     /**
+     * @return ActorInterface
+     */
+    public function defaultActor()
+    {
+        return $this->factory->make(
+            $this->config->defaultActor()
+        );
+    }
+
+    /**
+     * @todo optimize using schema cache?
+     * @return RoleManager
+     */
+    public function roleManager()
+    {
+        $roles = $this->factory->make(RoleManager::class);
+
+        //Populating?
+
+        return $roles;
+    }
+
+    /**
+     * @todo optimize using schema cache?
      * @return RuleManager
      */
     public function ruleManager()
     {
-        return new RuleManager($this->container);
+        $rules = $this->factory->make(RuleManager::class);
+
+        //Populating?
+
+        return $rules;
+    }
+
+    private function initLibraries($reset = false)
+    {
+
     }
 }

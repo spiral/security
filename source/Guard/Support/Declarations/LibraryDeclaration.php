@@ -7,14 +7,11 @@
  */
 namespace Spiral\Guard\Support\Declaration;
 
-use Spiral\Guard\Rule;
+use Spiral\Guard\Library;
 use Spiral\Reactor\ClassDeclaration;
 use Spiral\Reactor\DependedInterface;
 
-/**
- * Declares rule.
- */
-class RuleDeclaration extends ClassDeclaration implements DependedInterface
+class LibraryDeclaration extends ClassDeclaration implements DependedInterface
 {
     /**
      * {@inheritdoc}
@@ -22,7 +19,7 @@ class RuleDeclaration extends ClassDeclaration implements DependedInterface
     public function getDependencies()
     {
         return [
-            Rule::class => null
+            Library::class => null
         ];
     }
 }

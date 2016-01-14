@@ -11,8 +11,9 @@ use Psr\Log\LoggerAwareInterface;
 use Spiral\Core\Component;
 use Spiral\Debug\Traits\LoggerTrait;
 use Spiral\Guard\ActorInterface;
-use Spiral\Guard\AssociationsInterface;
+use Spiral\Guard\Exceptions\GuardException;
 use Spiral\Guard\GuardInterface;
+use Spiral\Guard\RolesInterface;
 use Spiral\Guard\RulesInterface;
 
 /**
@@ -28,7 +29,7 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
     private $actor = null;
 
     /**
-     * @var AssociationsInterface
+     * @var RolesInterface
      */
     private $associations = null;
 
@@ -38,13 +39,13 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
     private $rules = null;
 
     /**
-     * @param ActorInterface        $actor
-     * @param AssociationsInterface $associations
-     * @param RulesInterface        $rules
+     * @param ActorInterface $actor
+     * @param RolesInterface $associations
+     * @param RulesInterface $rules
      */
     public function __construct(
         ActorInterface $actor,
-        AssociationsInterface $associations,
+        RolesInterface $associations,
         RulesInterface $rules
     ) {
         $this->actor = $actor;
@@ -62,16 +63,20 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
                 continue;
             }
 
-            if ($this->associations->hasAssociation($role, $permission)) {
-                return true;
+            switch ($this->associations->getBehaviour($role, $permission)) {
+                case self::ALWAYS_ALLOW:
+                    return true;
+                case self::ALWAYS_FORBID:
+                    return true;
+                case self::FOLLOW_RULES:
+                    return $this->checkRules($permission, $context);
             }
         }
 
-        if ($this->rules->hasPermission($permission)) {
-            return $this->rules->check($permission, $this->actor, $context);
-        }
-
-        $this->logger()->warning("Undefined permissions '{permission}'.", compact('permission'));
+        $this->logger()->warning(
+            "Unable to resolve behaviour for permission '{permission}'.",
+            compact('permission')
+        );
 
         return false;
     }
@@ -93,5 +98,23 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
         $guard->actor = $actor;
 
         return $guard;
+    }
+
+    /**
+     * @param string $permission
+     * @param array  $context
+     * @return bool
+     */
+    private function checkRules($permission, array $context)
+    {
+        if (!$this->rules->hasRules($permission)) {
+            /*
+             * We are not allowing users to set FOLLOW_RULES behaviour without associated rule,
+             * this is not safe.
+             */
+            throw new GuardException("Unable to locate rule(s) for '{$permission}' permission.");
+        }
+
+        return $this->rules->check($permission, $this->actor, $context);
     }
 }

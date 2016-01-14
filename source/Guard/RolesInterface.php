@@ -10,7 +10,7 @@ namespace Spiral\Guard;
 use Spiral\Guard\Exceptions\PermissionException;
 use Spiral\Guard\Exceptions\RoleException;
 
-interface AssociationsInterface
+interface RolesInterface
 {
     /**
      * @param bool $role
@@ -42,32 +42,42 @@ interface AssociationsInterface
     public function getRoles();
 
     /**
-     * Check if given role has association with specified permission (permission allowed for role).
+     * Get role/permission behaviour.
      *
+     * @see GuardInterface::ALWAYS_ALLOW
+     * @see GuardInterface::ALWAYS_FORBID
+     * @see GuardInterface::FOLLOW_RULES
      * @param bool   $role
      * @param string $permission
-     * @return bool
+     * @return int
      * @throws RoleException
      * @throws PermissionException
      */
-    public function hasAssociation($role, $permission);
+    public function getBehaviour($role, $permission);
 
     /**
-     * Associate (allow) existed role with one or multiple permissions. Must support pattern based
-     * associations:
-     * $associations->associate('admin', '*');
-     * $associations->associate('editor', 'posts.*');
+     * Associate (allow) existed role with one or multiple permissions and specific behaviour.
+     * Pattern based associations are supported using star syntax.
      *
-     * @todo forbids?
+     * $associations->allow('admin', '*', GuardInterface::ALWAYS_ALLOW);
+     * $associations->allow('user', 'posts.*', GuardInterface::FOLLOW_RULES);
+     *
+     * Attention, role must be added previously!
+     *
+     * @see GuardInterface::ALWAYS_ALLOW
+     * @see GuardInterface::ALWAYS_FORBID
+     * @see GuardInterface::FOLLOW_RULES
+     * @see addRole()
      * @param string       $role
      * @param string|array $permission
+     * @param int          $behaviour
      * @throws RoleException
      * @throws PermissionException
      */
-    public function associate($role, $permission);
+    public function associate($role, $permission, $behaviour = GuardInterface::ALWAYS_ALLOW);
 
     /**
-     * Deassociate (deny) existed role with one or multiple permissions. This is not forbid method,
+     * Deassociate (remove) role with one or multiple permissions. This is not forbid method,
      * but rather remove association.
      *
      * @param string       $role
@@ -76,12 +86,4 @@ interface AssociationsInterface
      * @throws PermissionException
      */
     public function deassociate($role, $permission);
-
-    /**
-     * Return associated array where keys are known roles and value is array of permissions
-     * associated with such role.
-     *
-     * @return array
-     */
-    public function getAssociations();
 }

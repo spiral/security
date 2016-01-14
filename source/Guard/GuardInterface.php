@@ -17,6 +17,10 @@ interface GuardInterface
      */
     const NS_SEPARATOR = '.';
 
+    const ALWAYS_ALLOW  = 0;
+    const ALWAYS_FORBID = 1;
+    const FOLLOW_RULES  = 2;
+
     /**
      * Check if given permission are allowed. Has to check associations between permission and
      * actor roles. If no roles matched guard has to check permission fallback rule(s) if any

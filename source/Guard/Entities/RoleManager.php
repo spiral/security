@@ -8,9 +8,10 @@
 namespace Spiral\Guard\Entities;
 
 use Spiral\Core\Component;
-use Spiral\Guard\AssociationsInterface;
 use Spiral\Guard\Exceptions\PermissionException;
 use Spiral\Guard\Exceptions\RoleException;
+use Spiral\Guard\GuardInterface;
+use Spiral\Guard\RolesInterface;
 
 /**
  * Default implementation of associations repository and manager. Provides ability to set
@@ -22,7 +23,7 @@ use Spiral\Guard\Exceptions\RoleException;
  * $associations->associate('admin', '*');
  * $associations->associate('editor', 'posts.*');
  */
-class AssociationManager extends Component implements AssociationsInterface
+class RoleManager extends Component implements RolesInterface
 {
     /**
      * Roles associated with their permissions.
@@ -37,13 +38,10 @@ class AssociationManager extends Component implements AssociationsInterface
     private $starPatterns = null;
 
     /**
-     * @param array             $associations
      * @param StarPatterns|null $starPatterns
      */
-    public function __construct(array $associations = [], StarPatterns $starPatterns = null)
+    public function __construct(StarPatterns $starPatterns = null)
     {
-        $this->mountAssociations($associations);
-
         if (empty($starPatterns)) {
             $starPatterns = new StarPatterns();
         }
@@ -98,7 +96,7 @@ class AssociationManager extends Component implements AssociationsInterface
     /**
      * {@inheritdoc}
      */
-    public function hasAssociation($role, $permission)
+    public function getBehaviour($role, $permission)
     {
         if (!$this->hasRole($role)) {
             throw new RoleException("Undefined role '{$role}'.");
@@ -128,14 +126,23 @@ class AssociationManager extends Component implements AssociationsInterface
      *
      * @return $this
      */
-    public function associate($role, $permission)
+    public function associate($role, $permission, $behaviour = GuardInterface::ALWAYS_ALLOW)
     {
         if (!$this->hasRole($role)) {
             throw new RoleException("Undefined role '{$role}'.");
         }
 
+        if (!in_array($behaviour, [
+            GuardInterface::ALWAYS_ALLOW,
+            GuardInterface::ALWAYS_FORBID,
+            GuardInterface::FOLLOW_RULES
+        ])
+        ) {
+            throw new PermissionException("Invalid behaviour value");
+        }
+
         foreach ((array)$permission as $item) {
-            $this->associations[$role][$item] = true;
+            $this->associations[$role][$item] = $behaviour;
         }
 
         return $this;
@@ -164,21 +171,8 @@ class AssociationManager extends Component implements AssociationsInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getAssociations()
-    {
-        $result = [];
-        foreach ($this->associations as $role => $permissions) {
-            $result[$role] = array_keys($permissions);
-        }
-
-        return $result;
-    }
-
-    /**
      * @param array $an_array
-     * @return self
+     * @return RoleManager
      */
     static function __set_state($an_array)
     {
@@ -186,17 +180,5 @@ class AssociationManager extends Component implements AssociationsInterface
         $associations->associations = $an_array['associations'];
 
         return $associations;
-    }
-
-    /**
-     * Mounts associations using user friendly format.
-     *
-     * @param array $associations
-     */
-    private function mountAssociations(array $associations)
-    {
-        foreach ($associations as $role => $permissions) {
-            $this->associations[$role] = array_fill_keys($permissions, true);
-        }
     }
 }

@@ -22,7 +22,7 @@ interface RulesInterface
      * @param string $permission
      * @return bool
      */
-    public function hasPermission($permission);
+    public function hasRules($permission);
 
     /**
      * Associate rule with a given permission. Rule can be supplied in callable form. Star
