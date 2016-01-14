@@ -80,7 +80,7 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
         }
 
         $this->logger()->warning(
-            "Unable to resolve behaviour for permission '{permission}'.",
+            "Unable to resolve behaviour or rule(s) for permission '{permission}'.",
             compact('permission')
         );
 
