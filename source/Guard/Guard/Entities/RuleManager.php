@@ -70,7 +70,7 @@ class RuleManager extends Component implements RulesInterface
      *
      * @return $this
      */
-    public function addRule($permission, $rule)
+    public function addRule($permission, callable $rule)
     {
         $this->rules[$permission][] = $rule;
 
@@ -82,7 +82,7 @@ class RuleManager extends Component implements RulesInterface
      *
      * @return $this
      */
-    public function removeRule($permission, $rule)
+    public function removeRule($permission, callable $rule)
     {
         if (!$this->hasPermission($permission)) {
             throw new PermissionException("Undefined permission {$permission}.");

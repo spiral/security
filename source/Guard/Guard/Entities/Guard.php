@@ -7,7 +7,6 @@
  */
 namespace Spiral\Guard\Entities;
 
-use Psr\Log\LoggerAwareInterface;
 use Spiral\Core\Component;
 use Spiral\Debug\Traits\LoggerTrait;
 use Spiral\Guard\ActorInterface;
@@ -18,7 +17,7 @@ use Spiral\Guard\RulesInterface;
 /**
  * Checks permissions using given actor.
  */
-class Guard extends Component implements GuardInterface, LoggerAwareInterface
+class Guard extends Component implements GuardInterface
 {
     use LoggerTrait;
 

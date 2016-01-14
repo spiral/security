@@ -38,7 +38,7 @@ interface RulesInterface
      * @param callable $rule
      * @throws PermissionException
      */
-    public function addRule($permission, $rule);
+    public function addRule($permission, callable $rule);
 
     /**
      * Remove previously associated permission rule.
@@ -47,7 +47,7 @@ interface RulesInterface
      * @param callable $rule
      * @throws PermissionException
      */
-    public function removeRule($permission, $rule);
+    public function removeRule($permission, callable $rule);
 
     /**
      * Check permission using set of registered rules.

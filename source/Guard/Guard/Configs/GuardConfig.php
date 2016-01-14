@@ -23,7 +23,7 @@ class GuardConfig extends InjectableConfig
      * @var array
      */
     protected $config = [
-        'defaultActor' => []
+        'defaultRoles' => []
     ];
 
     /**
@@ -31,6 +31,6 @@ class GuardConfig extends InjectableConfig
      */
     public function defaultRoles()
     {
-        return $this->config['defaultActor'];
+        return $this->config['defaultRoles'];
     }
 }
