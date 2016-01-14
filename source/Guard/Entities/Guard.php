@@ -73,6 +73,12 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
             }
         }
 
+        if ($this->rules->hasRules($permission)) {
+            //This situation is possible in cases when developer specified no role/permission
+            //mapping and purely relay on rules
+            return $this->rules->check($permission, $this->actor, $context);
+        }
+
         $this->logger()->warning(
             "Unable to resolve behaviour for permission '{permission}'.",
             compact('permission')
