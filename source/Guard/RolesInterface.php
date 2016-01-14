@@ -46,7 +46,7 @@ interface RolesInterface
      *
      * @see GuardInterface::ALWAYS_ALLOW
      * @see GuardInterface::ALWAYS_FORBID
-     * @see GuardInterface::FOLLOW_RULES
+     * @see GuardInterface::FOLLOW_THE_RULES
      * @param bool   $role
      * @param string $permission
      * @return int
@@ -66,7 +66,7 @@ interface RolesInterface
      *
      * @see GuardInterface::ALWAYS_ALLOW
      * @see GuardInterface::ALWAYS_FORBID
-     * @see GuardInterface::FOLLOW_RULES
+     * @see GuardInterface::FOLLOW_THE_RULES
      * @see addRole()
      * @param string       $role
      * @param string|array $permission

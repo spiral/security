@@ -20,10 +20,11 @@ interface GuardInterface
     /**
      * Role/permissions association behaviours.
      */
-    const UNDEFINED     = 1;
-    const ALWAYS_ALLOW  = 1;
-    const ALWAYS_FORBID = 2;
-    const FOLLOW_RULES  = 3;
+    const UNDEFINED        = 1;
+    const ALWAYS_ALLOW     = 1;
+    const ALWAYS_FORBID    = 2;
+    const FOLLOW_THE_RULES = 3;
+    const CONTEXT_SPECIFIC = self::FOLLOW_THE_RULES;
 
     /**
      * Check if given permission are allowed. Has to check associations between permission and

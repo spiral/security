@@ -68,7 +68,7 @@ class Guard extends Component implements GuardInterface, LoggerAwareInterface
                     return true;
                 case self::ALWAYS_FORBID:
                     return true;
-                case self::FOLLOW_RULES:
+                case self::FOLLOW_THE_RULES:
                     return $this->checkRules($permission, $context);
             }
         }

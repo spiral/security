@@ -135,7 +135,7 @@ class RoleManager extends Component implements RolesInterface
         if (!in_array($behaviour, [
             GuardInterface::ALWAYS_ALLOW,
             GuardInterface::ALWAYS_FORBID,
-            GuardInterface::FOLLOW_RULES
+            GuardInterface::FOLLOW_THE_RULES
         ])
         ) {
             throw new PermissionException("Invalid behaviour value");
