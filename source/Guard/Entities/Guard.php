@@ -62,8 +62,8 @@ class Guard extends Component implements GuardInterface
             }
         }
 
-        if ($this->rules->knowsPermission($permission)) {
-            return $this->rules->check($permission, $this->actor, $context);
+        if ($this->rules->checksPermission($permission)) {
+            return $this->rules->check($this->actor, $permission, $context);
         }
 
         $this->logger()->warning("Undefined permissions {permission}.", compact('permission'));
