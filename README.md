@@ -6,7 +6,7 @@ Definition
 ----------
 * `ActorInterface` (user) has one (none is allowed as well) or multiple roles
 * Role associated with one or multiple permissions
-* Role associated to permission based on a given rule (by default `ALLOW`)
+* Role association to permission are based on a given rule (by default `ALLOW`)
 * Code must check Actor access using `GuardInterface`, permission and operation context
 
 Example:
