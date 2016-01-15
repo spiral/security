@@ -1,5 +1,5 @@
 # Security Module
-Security module provides ability to manager user access using set of defined roles, permissions 
+Security module provides ability to manage user access using set of defined roles, permissions 
 and rules.
 
 Example:
