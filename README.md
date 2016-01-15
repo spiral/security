@@ -76,8 +76,14 @@ interface ActorInterface
 ```
 
 ```php
-$this->container->set(ActorInterface::class, new Actor(['user']);
+$this->container->set(ActorInterface::class, new Actor(['user']));
+
+//Any object can be an Actor, make sure that your actor is compatible with your rules
+
+$this->container->set(ActorInterface::class, User::findByPK(1));
 ```
+
+> You can also use container scope method in middlewares to set actor only for specific part of your code.
 
 Usage in code:
 
