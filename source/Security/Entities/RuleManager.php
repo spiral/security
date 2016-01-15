@@ -114,6 +114,10 @@ class RuleManager implements RulesInterface
             $rule = $this->rules[$name];
         }
 
+        if($rule instanceof RuleInterface) {
+            return $rule;
+        }
+
         if (is_string($rule)) {
             //We are expecting that rule points to
             $rule = $this->container->get($rule);
@@ -137,7 +141,7 @@ class RuleManager implements RulesInterface
      */
     private function validateRule($rule)
     {
-        if ($rule instanceof \Closure) {
+        if ($rule instanceof \Closure || $rule instanceof RuleInterface) {
             return true;
         }
 
@@ -151,6 +155,6 @@ class RuleManager implements RulesInterface
             return $reflection->isSubclassOf(RulesInterface::class);
         }
 
-        return true;
+        return false;
     }
 }
