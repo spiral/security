@@ -21,7 +21,7 @@ use Spiral\Security\RulesInterface;
 /**
  * Bootloads guard functionality.
  */
-class GuardBootloader extends Bootloader
+class SecurityBootloader extends Bootloader
 {
     /**
      * @var array
