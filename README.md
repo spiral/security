@@ -77,4 +77,20 @@ public function indexAction()
 }
 ```
 
-More documentation is coming.
+Installation
+------------
+Execute following commands to install security component into your application:
+
+```
+composer require spiral/security
+```
+
+Once downloaded you can register module configuration:
+
+```
+spiral register spiral/security
+```
+
+Do not forget to add `app/config/modules/security.php` into your git repository.
+
+> More documentation is coming.
