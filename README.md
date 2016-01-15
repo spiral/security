@@ -45,7 +45,7 @@ to an active user:
 interface ActorInterface
 {
     /**
-     * Method must return list of roles associated with current operation is a form of array.
+     * Method must return list of roles associated with current actor is a form of array.
      *
      * @return array
      */
