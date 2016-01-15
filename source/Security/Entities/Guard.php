@@ -53,20 +53,20 @@ class Guard extends Component implements GuardInterface
     /**
      * {@inheritdoc}
      */
-    public function allows($operation, array $context = [])
+    public function allows($permission, array $context = [])
     {
         foreach ($this->getRoles() as $role) {
             if (!$this->permissions->hasRole($role)) {
                 continue;
             }
 
-            $rule = $this->permissions->getRule($role, $operation);
+            $rule = $this->permissions->getRule($role, $permission);
             if ($rule === self::ALLOW) {
                 return true;
             }
 
             if ($rule instanceof RuleInterface) {
-                if ($rule->allows($this->actor, $operation, $context)) {
+                if ($rule->allows($this->actor, $permission, $context)) {
                     return true;
                 }
             }

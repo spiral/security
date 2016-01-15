@@ -27,11 +27,11 @@ interface GuardInterface
      * Check if given operation are allowed. Has to check associations between operation and
      * actor/session roles based on given rules (binary vs context specific).
      *
-     * @param string $operation
+     * @param string $permission
      * @param array  $context Permissions specific context.
      * @return mixed
      */
-    public function allows($operation, array $context = []);
+    public function allows($permission, array $context = []);
 
     /**
      * Get associated actor instance.

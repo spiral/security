@@ -8,6 +8,7 @@
 namespace Spiral\Security;
 
 use Spiral\Core\ResolverInterface;
+use Spiral\Security\Exceptions\RuleException;
 
 /**
  * Rule class provides ability to route check request to a specified method (by default check)
@@ -17,6 +18,8 @@ use Spiral\Core\ResolverInterface;
  *
  * class MyRule extends Rule
  * {
+ *      protected $supports = ['post.(save|delete)'];
+ *
  *      public function check($actor, $post)
  *      {
  *          return $post->author_id == $actor->id;
@@ -67,6 +70,15 @@ abstract class Rule implements RuleInterface
         $method = new \ReflectionMethod($this, static::CHECK_METHOD);
         $method->setAccessible(true);
 
-        return $method->invokeArgs($this, $this->resolver->resolveArguments($method, $parameters));
+        try {
+            return $method->invokeArgs($this,
+                $this->resolver->resolveArguments($method, $parameters));
+        } catch (\Exception $e) {
+            throw new RuleException(
+                '[' . get_class($this) . '] ' . $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
     }
 }

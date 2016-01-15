@@ -11,11 +11,13 @@ use Spiral\Security\ActorInterface;
 
 class Guest implements ActorInterface
 {
+    const ROLE = 'guest';
+
     /**
      * {@inheritdoc}
      */
     public function getRoles()
     {
-        return ['guest'];
+        return [self::ROLE];
     }
 }
