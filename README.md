@@ -78,8 +78,7 @@ interface ActorInterface
 ```php
 $this->container->set(ActorInterface::class, new Actor(['user']));
 
-//Any object can be an Actor, make sure that your actor is compatible with your rules
-
+//Any object can be an Actor, only make sure that your actor is compatible with your rules
 $this->container->set(ActorInterface::class, User::findByPK(1));
 ```
 
