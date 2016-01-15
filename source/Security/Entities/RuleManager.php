@@ -9,6 +9,7 @@ namespace Spiral\Security\Entities;
 
 use Interop\Container\ContainerInterface;
 use Spiral\Security\Exceptions\RuleException;
+use Spiral\Security\RuleInterface;
 use Spiral\Security\RulesInterface;
 use Spiral\Security\Support\Patternizer;
 
@@ -106,12 +107,50 @@ class RuleManager implements RulesInterface
             throw new RuleException("Undefined rule '{$name}'.");
         }
 
-        //Resolving rule class
+        if (!isset($this->rules[$name])) {
+            //Rule represented as class name
+            $rule = $name;
+        } else {
+            $rule = $this->rules[$name];
+        }
+
+        if (is_string($rule)) {
+            //We are expecting that rule points to
+            $rule = $this->container->get($rule);
+
+            if (!$rule instanceof RuleInterface) {
+                throw new RuleException(
+                    "Rule '{$name}' must point to RuleInterface, '" . get_class($rule) . "' given."
+                );
+            }
+
+            return $rule;
+        }
+
+        //We have to respond using RuleInterface (expecting that rule is callable)
+        return new CallableRule($rule);
     }
 
+    /**
+     * @param mixed $rule
+     * @return bool
+     */
     private function validateRule($rule)
     {
-        return true;
+        if ($rule instanceof \Closure) {
+            return true;
+        }
 
+        if (is_array($rule)) {
+            return is_callable($rule, true);
+        }
+
+        if (is_string($rule) && class_exists($rule)) {
+            $reflection = new \ReflectionClass($rule);
+
+            return $reflection->isSubclassOf(RulesInterface::class);
+        }
+
+        return true;
     }
 }

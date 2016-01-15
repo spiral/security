@@ -57,7 +57,7 @@ abstract class Rule implements RuleInterface
     /**
      * {@inheritdoc}
      */
-    public function allows(ActorInterface $actor, $operation, array $context)
+    public function allows(ActorInterface $actor, $permission, array $context)
     {
         $parameters = compact('actor', 'operation', 'context') + $context;
 

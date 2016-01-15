@@ -111,13 +111,13 @@ class PermissionManager extends Component implements PermissionsInterface
             throw new RoleException("Invalid permission type, strings only.");
         }
 
-        $behaviour = $this->getBehaviour($role, $permission);
-        if ($behaviour == GuardInterface::ALLOW || $behaviour == GuardInterface::UNDEFINED) {
-            return $behaviour;
+        $rule = $this->findRule($role, $permission);
+        if ($rule === GuardInterface::ALLOW || $rule === GuardInterface::UNDEFINED) {
+            return $rule;
         }
 
         //Behaviour points to rule
-        return $this->rules->get($behaviour);
+        return $this->rules->get($rule);
     }
 
     /**
@@ -131,7 +131,7 @@ class PermissionManager extends Component implements PermissionsInterface
             throw new RoleException("Undefined role '{$role}'.");
         }
 
-        if ($rule != GuardInterface::ALLOW) {
+        if ($rule !== GuardInterface::ALLOW) {
             if (!$this->rules->has($rule)) {
                 throw new PermissionException("Invalid permission rule '{$rule}'");
             }
@@ -171,7 +171,7 @@ class PermissionManager extends Component implements PermissionsInterface
      * @param string $permission
      * @return bool|string
      */
-    private function getBehaviour($role, $permission)
+    private function findRule($role, $permission)
     {
         if (isset($this->associations[$role][$permission])) {
             //O(1) check

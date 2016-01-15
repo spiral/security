@@ -14,9 +14,9 @@ interface RuleInterface
 {
     /**
      * @param ActorInterface $actor
-     * @param string         $operation
+     * @param string         $permission
      * @param array          $context
      * @return bool
      */
-    public function allows(ActorInterface $actor, $operation, array $context);
+    public function allows(ActorInterface $actor, $permission, array $context);
 }
