@@ -45,6 +45,21 @@ class AuthorRule extends Rule
 }
 ```
 
+Custom rules can either be created by extending Rule (supports method injection for `check`) or via `RuleInterface`:
+
+```php
+interface RuleInterface
+{
+    /**
+     * @param ActorInterface $actor
+     * @param string         $permission
+     * @param array          $context
+     * @return bool
+     */
+    public function allows(ActorInterface $actor, $permission, array $context);
+}
+```
+
 To start using security component simply make sure that `Spiral\Security\ActorInterface` is pointing
 to an active user:
 
