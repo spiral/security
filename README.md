@@ -9,6 +9,9 @@ Definition
 * Role association to permission are based on a given rule (by default `ALLOW`)
 * Code must check Actor access using `GuardInterface`, permission and operation context
 
+> Module does not include ability for Role inheritance, such functionality must be
+implemented on higher level (see Albus).
+
 Example:
 --------
 ```php
