@@ -1,6 +1,6 @@
 {
-  "name": "spiral/guard",
-  "description": "Role-permission-rule authorization mechanism",
+  "name": "spiral/security",
+  "description": "Role-permission-rule security mechanism",
   "authors": [
     {
       "name": "Anton Titov / Wolfy-J",
