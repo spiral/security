@@ -103,7 +103,7 @@ public function indexAction()
 }
 ```
 
-You can also change guard actor in runtime (for example for testing):
+Guard actor can be changed in runtime at any moment (for example for testing):
 
 ```php
 public function indexAction(GuardInterface $guard)
