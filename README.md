@@ -138,6 +138,7 @@ protected $load = [
     SecurityBootloader::class,
     
     //...
+    AppBootloader::class,
 ];
 ```
 
