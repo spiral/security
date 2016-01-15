@@ -18,8 +18,6 @@ use Spiral\Security\Exceptions\RuleException;
  *
  * class MyRule extends Rule
  * {
- *      protected $supports = ['post.(save|delete)'];
- *
  *      public function check($actor, $post)
  *      {
  *          return $post->author_id == $actor->id;
