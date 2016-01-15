@@ -76,6 +76,18 @@ public function indexAction()
 }
 ```
 
+You can also change guard actor in runtime (for example for testing):
+
+```php
+public function indexAction(GuardInterface $guard)
+{
+    //New guard instance are created via withActor method
+    $guard = $guard->withActor(new Actor(['admin']));
+
+    dump($guard->allows('post.update', ['post' => 'POST OBJECT']));
+}
+```
+
 Installation
 ------------
 Execute following commands to install security component into your application:
