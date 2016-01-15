@@ -71,9 +71,8 @@ You can also use `GuardedTrait` or `AuthorizesTrait` for controllers.
 ```php
 public function indexAction()
 {
+    //Throws Forbidden exception
     $this->authorize('post.update', ['post' => 'POST OBJECT']);
-    
-
 }
 ```
 
