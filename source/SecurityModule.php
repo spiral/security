@@ -35,7 +35,7 @@ class SecurityModule implements ModuleInterface
     public function publish(PublisherInterface $publisher, DirectoriesInterface $directories)
     {
         $publisher->publish(
-            __DIR__ . '/config/security.php.php',
+            __DIR__ . '/config/security.php',
             $directories->directory('config') . 'modules/security.php',
             PublisherInterface::FOLLOW
         );
