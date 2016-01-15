@@ -102,6 +102,18 @@ Once downloaded you can register module configuration:
 spiral register spiral/security
 ```
 
+Once module registered simply add SecurityBootloader into your application:
+
+```php
+protected $load = [
+    //...
+    
+    SecurityBootloader::class,
+    
+    //...
+];
+```
+
 Do not forget to add `app/config/modules/security.php` into your git repository.
 
 > More documentation is coming.
