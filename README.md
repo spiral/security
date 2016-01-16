@@ -1,6 +1,16 @@
 # Security Module
-Security module provides ability to manager user access using set of defined roles, permissions 
+Security module provides ability to manage user access using set of defined roles, permissions 
 and rules.
+
+Definition
+----------
+* `ActorInterface` (user) has one (none is allowed as well) or multiple roles
+* Role associated with one or multiple permissions
+* Role association to permission are based on a given rule (by default `ALLOW`)
+* Code must check Actor access using `GuardInterface`, permission and operation context
+
+> Module does not include ability for Role inheritance, such functionality must be
+implemented on higher level (see Albus).
 
 Example:
 --------
@@ -38,6 +48,21 @@ class AuthorRule extends Rule
 }
 ```
 
+Custom rules can either be created by extending Rule (supports method injection for `check`) or via `RuleInterface`:
+
+```php
+interface RuleInterface
+{
+    /**
+     * @param ActorInterface $actor
+     * @param string         $permission
+     * @param array          $context
+     * @return bool
+     */
+    public function allows(ActorInterface $actor, $permission, array $context);
+}
+```
+
 To start using security component simply make sure that `Spiral\Security\ActorInterface` is pointing
 to an active user:
 
@@ -54,8 +79,13 @@ interface ActorInterface
 ```
 
 ```php
-$this->container->set(ActorInterface::class, new Actor(['user']);
+$this->container->set(ActorInterface::class, new Actor(['user']));
+
+//Any object can be an Actor, only make sure that your actor is compatible with your rules
+$this->container->set(ActorInterface::class, User::findByPK(1));
 ```
+
+> You can also use container scope() method in middlewares to set actor only for specific part of your code.
 
 Usage in code:
 
@@ -76,7 +106,7 @@ public function indexAction()
 }
 ```
 
-You can also change guard actor in runtime (for example for testing):
+Guard actor can be changed in runtime at any moment (for example for testing):
 
 ```php
 public function indexAction(GuardInterface $guard)
@@ -111,6 +141,8 @@ protected $load = [
     SecurityBootloader::class,
     
     //...
+    
+    AppBootloader::class,
 ];
 ```
 
