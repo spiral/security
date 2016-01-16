@@ -5,7 +5,7 @@
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
-namespace Spiral\Security\Entities;
+namespace Spiral\Security\Rules;
 
 use Spiral\Security\ActorInterface;
 use Spiral\Security\RuleInterface;
