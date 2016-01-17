@@ -1,6 +1,6 @@
 # Security Module
 Security module provides ability to manage user access using set of defined roles, permissions 
-and rules.
+and rules (RBAC/RPR).
 
 Definition
 ----------
@@ -10,7 +10,7 @@ Definition
 * Code must check Actor access using `GuardInterface`, permission and operation context
 
 > Module does not include ability for Role inheritance, such functionality must be
-implemented on higher level (see Albus).
+implemented on **higher level abstractions** (see Albus).
 
 Example:
 --------
