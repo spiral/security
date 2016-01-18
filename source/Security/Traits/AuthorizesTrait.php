@@ -27,8 +27,9 @@ trait AuthorizesTrait
     protected function authorize($permission, array $context = [])
     {
         if (!$this->allows($permission, $context)) {
+            $name = $this->resolvePermission($permission);
             throw new ControllerException(
-                "Unauthorized permission {$permission}.",
+                "Unauthorized permission '{$name}'.",
                 ControllerException::FORBIDDEN
             );
         }
