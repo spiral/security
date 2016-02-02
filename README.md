@@ -149,3 +149,21 @@ protected $load = [
 Do not forget to add `app/config/modules/security.php` into your git repository.
 
 > More documentation is coming.
+
+## Combination with Auth module
+Guide is coming.
+
+```php
+/**
+ * @param ContextInterface $context
+ * @return \Spiral\Auth\UserInterface|Guest
+ */
+public function getActor(ContextInterface $context)
+{
+    if ($context->isAuthenticated()) {
+        return $context->getUser();
+    }
+
+    return new Guest();
+}
+```
