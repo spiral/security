@@ -158,7 +158,7 @@ Guide is coming.
  * @param ContextInterface $context
  * @return \Spiral\Auth\UserInterface|Guest
  */
-public function getActor(ContextInterface $context)
+public function resolveActoe(\Spiral\Auth\ContextInterface $context)
 {
     if ($context->isAuthenticated()) {
         return $context->getUser();
