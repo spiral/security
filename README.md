@@ -85,7 +85,7 @@ $this->container->set(ActorInterface::class, new Actor(['user']));
 $this->container->set(ActorInterface::class, User::findByPK(1));
 ```
 
-> You can also use container scope() method in middlewares to set actor only for specific part of your code.
+> You can also use container replace() method in middlewares to set actor only for specific part of your code.
 
 Usage in code:
 
