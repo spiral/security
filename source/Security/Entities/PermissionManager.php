@@ -33,6 +33,13 @@ class PermissionManager extends Component implements PermissionsInterface
      * @var array
      */
     private $associations = [];
+    
+    /**
+     * Roles deassociated with their permissions.
+     *
+     * @var array
+     */
+    private $deassociations = [];
 
     /**
      * @var RulesInterface
@@ -157,10 +164,10 @@ class PermissionManager extends Component implements PermissionsInterface
 
         foreach ((array)$permission as $item) {
             if (!isset($this->associations[$role][$item])) {
-                throw new PermissionException("Undefined permission {$permission}.");
+                $this->deassociations[$role][] = $item;
+            } else {
+                unset($this->associations[$role][$item]);
             }
-
-            unset($this->associations[$role][$item]);
         }
 
         return $this;
@@ -173,6 +180,10 @@ class PermissionManager extends Component implements PermissionsInterface
      */
     private function findRule($role, $permission)
     {
+        if (in_array($permission, $this->deassociations[$role])) {
+            return GuardInterface::UNDEFINED;
+        }
+
         if (isset($this->associations[$role][$permission])) {
             //O(1) check
             return $this->associations[$role][$permission];
