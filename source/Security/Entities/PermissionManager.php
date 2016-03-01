@@ -180,7 +180,7 @@ class PermissionManager extends Component implements PermissionsInterface
      */
     private function findRule($role, $permission)
     {
-        if (in_array($permission, $this->deassociations[$role])) {
+        if (isset($this->deassociations[$role]) && in_array($permission, $this->deassociations[$role])) {
             return GuardInterface::UNDEFINED;
         }
 
