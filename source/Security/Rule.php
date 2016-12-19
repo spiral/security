@@ -60,7 +60,7 @@ abstract class Rule implements RuleInterface
      */
     public function allows(ActorInterface $actor, $permission, array $context)
     {
-        $parameters = compact('actor', 'operation', 'context') + $context;
+        $parameters = compact('actor', 'permission', 'context') + $context;
 
         //Mounting aliases
         foreach ($this->aliases as $target => $alias) {
