@@ -1,7 +1,7 @@
 {
   "name": "spiral/security",
   "type": "library",
-  "description": "RBAC security layer",
+  "description": "Spiral, RBAC security layer",
   "license": "MIT",
   "authors": [
     {
