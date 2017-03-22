@@ -108,6 +108,18 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
     /**
      * {@inheritdoc}
      */
+    public function getPermissions(string $role): array
+    {
+        if (!$this->hasRole($role)) {
+            throw new RoleException("Undefined role '{$role}'");
+        }
+
+        return $this->permissions[$role];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getRule(string $role, string $permission): RuleInterface
     {
         if (!$this->hasRole($role)) {

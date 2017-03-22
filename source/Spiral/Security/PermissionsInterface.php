@@ -49,6 +49,17 @@ interface PermissionsInterface
     public function getRoles(): array;
 
     /**
+     * Get list of all permissions and their rules associated with given role.
+     *
+     * @param string $role
+     *
+     * @return array
+     *
+     * @throws RoleException
+     */
+    public function getPermissions(string $role): array;
+
+    /**
      * Get role/permission behaviour.
      *
      * @param string $role

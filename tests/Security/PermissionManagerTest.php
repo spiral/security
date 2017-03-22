@@ -111,6 +111,29 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
         $manager->getRule(static::ROLE, static::PERMISSION);
     }
 
+    public function testRulesForRoleException()
+    {
+        $this->rules->method('has')->willReturn(true);
+        $manager = new PermissionManager($this->rules, $this->patternizer);
+
+        $this->expectException(RoleException::class);
+        $manager->getPermissions('admin');
+    }
+
+    public function testRulesForRole()
+    {
+        $this->rules->method('has')->willReturn(true);
+
+        $manager = new PermissionManager($this->rules, $this->patternizer);
+
+        $manager->addRole('admin');
+        $manager->associate('admin', 'post.edit', AllowRule::class);
+
+        $this->assertSame([
+            'post.edit' => AllowRule::class
+        ], $manager->getPermissions('admin'));
+    }
+
     public function testGetRulePermissionException()
     {
         $manager = new PermissionManager($this->rules, $this->patternizer);
