@@ -54,7 +54,7 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
 
     /**
      * @param RulesInterface   $rules
-     * @param Patternizer|null $patternizer \
+     * @param Patternizer|null $patternizer
      * @param string           $fallbackRule
      */
     public function __construct(
@@ -64,7 +64,7 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
     ) {
         $this->rules = $rules;
         $this->patternizer = $patternizer;
-        $this->fallbackRule = ForbidRule::class;
+        $this->fallbackRule = $fallbackRule;
     }
 
     /**
