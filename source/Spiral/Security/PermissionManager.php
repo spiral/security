@@ -38,21 +38,33 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
     /**
      * @var RulesInterface
      */
-    private $rules = null;
+    private $rules;
 
     /**
      * @var Patternizer
      */
-    private $patternizer = null;
+    private $patternizer;
+
+    /**
+     * Rule to be used as fallback for a given role.
+     *
+     * @var string
+     */
+    private $fallbackRule = ForbidRule::class;
 
     /**
      * @param RulesInterface   $rules
-     * @param Patternizer|null $patternizer
+     * @param Patternizer|null $patternizer \
+     * @param string           $fallbackRule
      */
-    public function __construct(RulesInterface $rules, Patternizer $patternizer)
-    {
+    public function __construct(
+        RulesInterface $rules,
+        Patternizer $patternizer,
+        string $fallbackRule = ForbidRule::class
+    ) {
         $this->rules = $rules;
         $this->patternizer = $patternizer;
+        $this->fallbackRule = ForbidRule::class;
     }
 
     /**
@@ -193,8 +205,6 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
             }
         }
 
-        throw new PermissionException(
-            "Unable to resolve role/permission association for '{$role}'/'{$permission}'"
-        );
+        return $this->fallbackRule;
     }
 }

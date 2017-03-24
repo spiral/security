@@ -134,13 +134,19 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
         ], $manager->getPermissions('admin'));
     }
 
-    public function testGetRulePermissionException()
+    public function testGetFallbackRule()
     {
         $manager = new PermissionManager($this->rules, $this->patternizer);
         $manager->addRole(static::ROLE);
 
-        $this->expectException(PermissionException::class);
-        $manager->getRule(static::ROLE, static::PERMISSION);
+        $this->rules->method('get')
+            ->withConsecutive([ForbidRule::class])
+            ->willReturn(new ForbidRule());
+
+        $this->assertInstanceOf(
+            ForbidRule::class,
+            $manager->getRule(static::ROLE, static::PERMISSION)
+        );
     }
 
     public function testAssociateRoleException()
