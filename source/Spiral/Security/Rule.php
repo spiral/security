@@ -37,14 +37,14 @@ abstract class Rule implements RuleInterface
      *
      * @var array
      */
-    protected $aliases = [
+    const ALIASES = [
         'user' => 'actor'
     ];
 
     /**
      * @var ResolverInterface
      */
-    protected $resolver = null;
+    protected $resolver;
 
     /**
      * @param ResolverInterface $resolver
@@ -64,7 +64,7 @@ abstract class Rule implements RuleInterface
         $parameters = compact('actor', 'permission', 'context') + $context;
 
         //Mounting aliases
-        foreach ($this->aliases as $target => $alias) {
+        foreach (static::ALIASES as $target => $alias) {
             $parameters[$target] = $parameters[$alias];
         }
 
@@ -73,7 +73,8 @@ abstract class Rule implements RuleInterface
 
         try {
             return $method->invokeArgs($this,
-                $this->resolver->resolveArguments($method, $parameters));
+                $this->resolver->resolveArguments($method, $parameters)
+            );
         } catch (\Throwable $e) {
             throw new RuleException(
                 '[' . get_class($this) . '] ' . $e->getMessage(),
