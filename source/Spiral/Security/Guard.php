@@ -53,6 +53,7 @@ final class Guard extends Component implements GuardInterface
      */
     public function allows(string $permission, array $context = []): bool
     {
+        $allows = false;
         foreach ($this->getRoles() as $role) {
             if (!$this->permissions->hasRole($role)) {
                 continue;
@@ -61,10 +62,10 @@ final class Guard extends Component implements GuardInterface
             $rule = $this->permissions->getRule($role, $permission);
 
             //Checking our rule
-            return $rule->allows($this->getActor(), $permission, $context);
+            $allows = $allows || $rule->allows($this->getActor(), $permission, $context);
         }
 
-        return false;
+        return $allows;
     }
 
     /**
