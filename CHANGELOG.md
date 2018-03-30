@@ -1,5 +1,8 @@
 CHANGELOG for 0.9.0 RC
 ======================
+1.0.5 (30.03.2018)
+-----
+* Guard now searches for all allowing permissions, not stopping on first with allow/deny result
 
 1.0.1 (22.03.2017)
 -----
