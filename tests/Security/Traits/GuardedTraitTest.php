@@ -8,6 +8,7 @@
 namespace Spiral\Tests\Security\Traits;
 
 use Interop\Container\ContainerInterface;
+use Spiral\Core\Container;
 use Spiral\Core\Exceptions\ScopeException;
 use Spiral\Security\GuardInterface;
 use Spiral\Security\Traits\GuardedTrait;
@@ -23,7 +24,7 @@ use Spiral\Tests\Security\Traits\Fixtures\GuardedWithNamespace;
 class GuardedTraitTest extends \PHPUnit_Framework_TestCase
 {
     const OPERATION = 'test';
-    const CONTEXT   = [];
+    const CONTEXT = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|GuardedTrait
@@ -47,23 +48,11 @@ class GuardedTraitTest extends \PHPUnit_Framework_TestCase
         $this->container = $this->createMock(ContainerInterface::class);
     }
 
-    public function testGetGuard()
-    {
-        $this->trait->setGuard($this->guard);
-        $this->assertEquals($this->guard, $this->trait->getGuard());
-    }
-
     public function testGetGuardFromContainer()
     {
         $this->container->method('get')->will($this->returnValue($this->guard));
         $this->trait->method('iocContainer')->will($this->returnValue($this->container));
         $this->assertEquals($this->guard, $this->trait->getGuard());
-    }
-
-    public function testGetGuardScopeException()
-    {
-        $this->expectException(ScopeException::class);
-        $this->trait->getGuard();
     }
 
     public function testAllows()
@@ -73,7 +62,11 @@ class GuardedTraitTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $guarded = new Guarded();
-        $guarded->setGuard($this->guard);
+
+        $container = new Container();
+        $container->bind(GuardInterface::class, $this->guard);
+
+        $guarded->setIocContainer($container);
 
         $this->assertTrue($guarded->allows(static::OPERATION, static::CONTEXT));
         $this->assertFalse($guarded->denies(static::OPERATION, static::CONTEXT));

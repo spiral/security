@@ -19,42 +19,11 @@ use Spiral\Security\GuardInterface;
 trait GuardedTrait
 {
     /**
-     * Instance specific guard instance.
-     *
-     * @see getGuard()
-     * @var GuardInterface|null
-     */
-    private $guard = null;
-
-    /**
-     * Set instance specific guard.
-     *
-     * @param GuardInterface $guard
-     */
-    public function setGuard(GuardInterface $guard)
-    {
-        $this->guard = $guard;
-    }
-
-    /**
      * @return GuardInterface
-     *
-     * @throws ScopeException
      */
     public function getGuard(): GuardInterface
     {
-        if (empty($this->guard)) {
-
-            $container = $this->iocContainer();
-
-            if (empty($container)) {
-                throw new ScopeException("Unable to create guard, no container is available");
-            }
-
-            $this->guard = $container->get(GuardInterface::class);
-        }
-
-        return $this->guard;
+        return $this->iocContainer()->get(GuardInterface::class);
     }
 
     /**
