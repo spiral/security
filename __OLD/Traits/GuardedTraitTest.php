@@ -1,0 +1,85 @@
+<?php
+/**
+ * Spiral, Core Components
+ *
+ * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ */
+
+namespace Spiral\Security\Tests\Traits;
+
+use Interop\Container\ContainerInterface;
+use PHPUnit\Framework\TestCase;
+use Spiral\Core\Container;
+use Spiral\Core\Exceptions\ScopeException;
+use Spiral\Security\GuardInterface;
+use Spiral\Security\Traits\GuardedTrait;
+use Spiral\Security\Tests\Traits\Fixtures\Guarded;
+use Spiral\Security\Tests\Traits\Fixtures\GuardedWithNamespace;
+
+
+/**
+ * Class GuardedTraitTest
+ *
+ * @package Spiral\Security\Tests\Traits
+ */
+class GuardedTraitTest extends TestCase
+{
+    const OPERATION = 'test';
+    const CONTEXT = [];
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|GuardedTrait
+     */
+    private $trait;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|GuardInterface
+     */
+    private $guard;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|ContainerInterface
+     */
+    private $container;
+
+    public function setUp()
+    {
+        $this->trait = $this->getMockForTrait(GuardedTrait::class);
+        $this->guard = $this->createMock(GuardInterface::class);
+        $this->container = $this->createMock(ContainerInterface::class);
+    }
+
+    public function testGetGuardFromContainer()
+    {
+        $this->container->method('get')->will($this->returnValue($this->guard));
+        $this->trait->method('iocContainer')->will($this->returnValue($this->container));
+        $this->assertEquals($this->guard, $this->trait->getGuard());
+    }
+
+    public function testAllows()
+    {
+        $this->guard->method('allows')
+            ->with(static::OPERATION, static::CONTEXT)
+            ->will($this->returnValue(true));
+
+        $guarded = new Guarded();
+
+        $container = new Container();
+        $container->bind(GuardInterface::class, $this->guard);
+
+        $guarded->setIocContainer($container);
+
+        $this->assertTrue($guarded->allows(static::OPERATION, static::CONTEXT));
+        $this->assertFalse($guarded->denies(static::OPERATION, static::CONTEXT));
+    }
+
+    public function testResolvePermission()
+    {
+        $guarded = new Guarded();
+        $this->assertEquals(static::OPERATION, $guarded->resolvePermission(static::OPERATION));
+
+        $guarded = new GuardedWithNamespace();
+        $resolvedPermission = GuardedWithNamespace::GUARD_NAMESPACE . '.' . static::OPERATION;
+        $this->assertEquals($resolvedPermission, $guarded->resolvePermission(static::OPERATION));
+    }
+}
