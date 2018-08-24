@@ -1,26 +1,27 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
 namespace Spiral\Security\Tests\Rules;
 
+use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\RuleInterface;
 use Spiral\Security\Rules\AllowRule;
-
 
 /**
  * Class AllowRuleTest
  *
  * @package Spiral\Security\Tests\Rules
  */
-class AllowRuleTest extends \PHPUnit_Framework_TestCase
+class AllowRuleTest extends TestCase
 {
     const OPERATION = 'test';
-    const CONTEXT   = [];
+    const CONTEXT = [];
 
     public function testAllow()
     {

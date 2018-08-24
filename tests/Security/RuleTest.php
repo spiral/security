@@ -1,10 +1,10 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
-
 namespace Spiral\Security\Tests;
 
 use PHPUnit\Framework\TestCase;

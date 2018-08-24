@@ -1,8 +1,9 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
 namespace Spiral\Security\Tests;
@@ -81,15 +82,12 @@ class PermissionManagerTest extends TestCase
         $manager->addRole(static::ROLE);
 
         // test simple permission
-        $this->assertEquals($manager,
-            $manager->associate(static::ROLE, static::PERMISSION, AllowRule::class));
+        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION, AllowRule::class));
         $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION));
 
         // test pattern permission
-        $this->assertEquals($manager,
-            $manager->associate(static::ROLE, static::PERMISSION . '*', AllowRule::class));
-        $this->assertEquals($allowRule,
-            $manager->getRule(static::ROLE, static::PERMISSION . '.' . static::PERMISSION));
+        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION . '*', AllowRule::class));
+        $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION . '.' . static::PERMISSION));
 
         $this->assertEquals($manager, $manager->deassociate(static::ROLE, static::PERMISSION));
         $this->assertEquals($forbidRule, $manager->getRule(static::ROLE, static::PERMISSION));
