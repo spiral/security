@@ -1,22 +1,22 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security\Rules\Fixtures;
-
+namespace Spiral\Security\Tests\Rules\Fixtures;
 
 use Spiral\Security\Rules\CompositeRule;
 
 /**
  * Class OneCompositeRule
  *
- * @package Spiral\Tests\Security\Actors
+ * @package Spiral\Security\Tests\Actors
  */
 class OneCompositeRule extends CompositeRule
 {
-    const RULES     = ['test.create', 'test.update', 'test.delete'];
+    const RULES = ['test.create', 'test.update', 'test.delete'];
     const BEHAVIOUR = self::AT_LEAST_ONE;
 }

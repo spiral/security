@@ -19,7 +19,6 @@ interface RuleInterface
      * @param ActorInterface $actor
      * @param string         $permission
      * @param array          $context
-     *
      * @return bool
      *
      * @throws RuleException

@@ -1,12 +1,14 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security;
+namespace Spiral\Security\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Spiral\Core\ResolverInterface;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Exceptions\RuleException;
@@ -15,12 +17,12 @@ use Spiral\Security\Rule;
 /**
  * Class RuleTest
  *
- * @package Spiral\Tests\Security
+ * @package Spiral\Security\Tests
  */
-class RuleTest extends \PHPUnit_Framework_TestCase
+class RuleTest extends TestCase
 {
     const OPERATION = 'test';
-    const CONTEXT   = [];
+    const CONTEXT = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface

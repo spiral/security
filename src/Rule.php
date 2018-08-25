@@ -27,9 +27,7 @@ use Spiral\Security\Exceptions\RuleException;
  */
 abstract class Rule implements RuleInterface
 {
-    /**
-     * Method to be used for checking.
-     */
+    //Method to be used for checking (support for method injection).
     const CHECK_METHOD = 'check';
 
     /**
@@ -41,9 +39,7 @@ abstract class Rule implements RuleInterface
         'user' => 'actor'
     ];
 
-    /**
-     * @var ResolverInterface
-     */
+    /* @var ResolverInterface */
     protected $resolver;
 
     /**
@@ -68,19 +64,17 @@ abstract class Rule implements RuleInterface
             $parameters[$target] = $parameters[$alias];
         }
 
-        $method = new \ReflectionMethod($this, static::CHECK_METHOD);
-        $method->setAccessible(true);
+        try {
+            $method = new \ReflectionMethod($this, static::CHECK_METHOD);
+            $method->setAccessible(true);
+        } catch (\ReflectionException $e) {
+            throw new RuleException($e->getMessage(), $e->getCode(), $e);
+        }
 
         try {
-            return $method->invokeArgs($this,
-                $this->resolver->resolveArguments($method, $parameters)
-            );
+            return $method->invokeArgs($this, $this->resolver->resolveArguments($method, $parameters));
         } catch (\Throwable $e) {
-            throw new RuleException(
-                '[' . get_class($this) . '] ' . $e->getMessage(),
-                $e->getCode(),
-                $e
-            );
+            throw new RuleException(sprintf("[%s] %s", get_class($this), $e->getMessage()), $e->getCode(), $e);
         }
     }
 }

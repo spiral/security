@@ -1,14 +1,15 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security;
+namespace Spiral\Security\Tests;
 
-
-use Interop\Container\ContainerInterface;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Spiral\Security\Exceptions\RuleException;
 use Spiral\Security\RuleInterface;
 use Spiral\Security\RuleManager;
@@ -17,19 +18,19 @@ use Spiral\Security\Rules\CallableRule;
 /**
  * Class RuleManagerTest
  *
- * @package Spiral\Tests\Security
+ * @package Spiral\Security\Tests
  */
-class RuleManagerTest extends \PHPUnit_Framework_TestCase
+class RuleManagerTest extends TestCase
 {
     const RULE_NAME = 'test';
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ContainerInterface
+     * @var ContainerInterface
      */
     private $container;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|RuleInterface
+     * @var RuleInterface
      */
     private $rule;
 

@@ -1,26 +1,22 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security\Rules;
+namespace Spiral\Security\Tests\Rules;
 
+use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\RuleInterface;
 use Spiral\Security\Rules\CallableRule;
 
-
-/**
- * Class CallableRuleTest
- *
- * @package Spiral\Tests\Security\Rules
- */
-class CallableRuleTest extends \PHPUnit_Framework_TestCase
+class CallableRuleTest extends TestCase
 {
     const OPERATION = 'test';
-    const CONTEXT   = [];
+    const CONTEXT = [];
 
     public function testAllow()
     {

@@ -1,27 +1,23 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security\Traits;
+namespace Spiral\Security\Tests\Traits;
 
-use Interop\Container\ContainerInterface;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Spiral\Core\Container;
-use Spiral\Core\Exceptions\ScopeException;
+use Spiral\Core\ContainerScope;
 use Spiral\Security\GuardInterface;
+use Spiral\Security\Tests\Traits\Fixtures\Guarded;
+use Spiral\Security\Tests\Traits\Fixtures\GuardedWithNamespace;
 use Spiral\Security\Traits\GuardedTrait;
-use Spiral\Tests\Security\Traits\Fixtures\Guarded;
-use Spiral\Tests\Security\Traits\Fixtures\GuardedWithNamespace;
 
-
-/**
- * Class GuardedTraitTest
- *
- * @package Spiral\Tests\Security\Traits
- */
-class GuardedTraitTest extends \PHPUnit_Framework_TestCase
+class GuardedTraitTest extends TestCase
 {
     const OPERATION = 'test';
     const CONTEXT = [];
@@ -50,8 +46,31 @@ class GuardedTraitTest extends \PHPUnit_Framework_TestCase
 
     public function testGetGuardFromContainer()
     {
+        $this->container->method('has')->willReturn(true);
         $this->container->method('get')->will($this->returnValue($this->guard));
-        $this->trait->method('iocContainer')->will($this->returnValue($this->container));
+
+        ContainerScope::runScope($this->container, function () {
+            $this->assertEquals($this->guard, $this->trait->getGuard());
+        });
+    }
+
+    /**
+     * @expectedException \Spiral\Core\Exceptions\ScopeException
+     */
+    public function testGuardScopeException()
+    {
+        $this->container->method('has')->willReturn(false);
+
+        ContainerScope::runScope($this->container, function () {
+            $this->assertEquals($this->guard, $this->trait->getGuard());
+        });
+    }
+
+    /**
+     * @expectedException \Spiral\Core\Exceptions\ScopeException
+     */
+    public function testGuardScopeException2()
+    {
         $this->assertEquals($this->guard, $this->trait->getGuard());
     }
 
@@ -66,10 +85,10 @@ class GuardedTraitTest extends \PHPUnit_Framework_TestCase
         $container = new Container();
         $container->bind(GuardInterface::class, $this->guard);
 
-        $guarded->setIocContainer($container);
-
-        $this->assertTrue($guarded->allows(static::OPERATION, static::CONTEXT));
-        $this->assertFalse($guarded->denies(static::OPERATION, static::CONTEXT));
+        ContainerScope::runScope($container, function () use ($guarded) {
+            $this->assertTrue($guarded->allows(static::OPERATION, static::CONTEXT));
+            $this->assertFalse($guarded->denies(static::OPERATION, static::CONTEXT));
+        });
     }
 
     public function testResolvePermission()

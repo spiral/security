@@ -8,7 +8,7 @@
 
 namespace Spiral\Security\Traits;
 
-use Interop\Container\ContainerInterface;
+use Spiral\Core\ContainerScope;
 use Spiral\Core\Exceptions\ScopeException;
 use Spiral\Security\GuardInterface;
 
@@ -20,16 +20,23 @@ trait GuardedTrait
 {
     /**
      * @return GuardInterface
+     * @throws ScopeException
      */
     public function getGuard(): GuardInterface
     {
-        return $this->iocContainer()->get(GuardInterface::class);
+        $container = ContainerScope::getContainer();
+        if (empty($container) || !$container->has(GuardInterface::class)) {
+            throw new ScopeException(
+                'Unable to get `GuardInterface`, binding is missing or container scope is not set'
+            );
+        }
+
+        return $container->get(GuardInterface::class);
     }
 
     /**
      * @param string $permission
      * @param array  $context
-     *
      * @return bool
      */
     protected function allows(string $permission, array $context = []): bool
@@ -40,7 +47,6 @@ trait GuardedTrait
     /**
      * @param string $permission
      * @param array  $context
-     *
      * @return bool
      */
     protected function denies(string $permission, array $context = []): bool
@@ -52,7 +58,6 @@ trait GuardedTrait
      * Automatically prepend permission name with local RBAC namespace.
      *
      * @param string $permission
-     *
      * @return string
      */
     protected function resolvePermission(string $permission): string
@@ -64,9 +69,4 @@ trait GuardedTrait
 
         return $permission;
     }
-
-    /**
-     * @return ContainerInterface|null
-     */
-    abstract protected function iocContainer();
 }

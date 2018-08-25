@@ -1,28 +1,24 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security;
+namespace Spiral\Security\Tests;
 
-
+use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Exceptions\GuardException;
 use Spiral\Security\Guard;
 use Spiral\Security\PermissionsInterface;
 use Spiral\Security\RuleInterface;
 
-/**
- * Class GuardTest
- *
- * @package Spiral\Tests\Security
- */
-class GuardTest extends \PHPUnit_Framework_TestCase
+class GuardTest extends TestCase
 {
     const OPERATION = 'test';
-    const CONTEXT   = [];
+    const CONTEXT = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|PermissionsInterface

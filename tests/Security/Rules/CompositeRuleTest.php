@@ -1,28 +1,25 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security\Rules;
+namespace Spiral\Security\Tests\Rules;
 
+use PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls;
+use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\RuleInterface;
 use Spiral\Security\RulesInterface;
-use Spiral\Tests\Security\Rules\Fixtures\AllCompositeRule;
-use Spiral\Tests\Security\Rules\Fixtures\OneCompositeRule;
+use Spiral\Security\Tests\Rules\Fixtures\AllCompositeRule;
+use Spiral\Security\Tests\Rules\Fixtures\OneCompositeRule;
 
-
-/**
- * Class CompositeRuleTest
- *
- * @package Spiral\Tests\Security\Rules
- */
-class CompositeRuleTest extends \PHPUnit_Framework_TestCase
+class CompositeRuleTest extends TestCase
 {
     const OPERATION = 'test';
-    const CONTEXT   = [];
+    const CONTEXT = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface $callable
@@ -76,7 +73,7 @@ class CompositeRuleTest extends \PHPUnit_Framework_TestCase
         $repository = $this->createMock(RulesInterface::class);
 
         $repository->method('get')
-            ->will(new \PHPUnit_Framework_MockObject_Stub_ConsecutiveCalls($rules));
+            ->will(new ConsecutiveCalls($rules));
 
         return $repository;
     }

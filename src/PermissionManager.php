@@ -8,12 +8,11 @@
 
 namespace Spiral\Security;
 
-use Spiral\Core\Component;
 use Spiral\Core\Container\SingletonInterface;
 use Spiral\Security\Exceptions\PermissionException;
 use Spiral\Security\Exceptions\RoleException;
+use Spiral\Security\Rules\AllowRule;
 use Spiral\Security\Rules\ForbidRule;
-use Spiral\Support\Patternizer;
 
 /**
  * Default implementation of associations repository and manager. Provides ability to set
@@ -26,7 +25,7 @@ use Spiral\Support\Patternizer;
  * $associations->associate('editor', 'posts.*', Allows::class);
  * $associations->associate('user', 'posts.*', Forbid::class);
  */
-class PermissionManager extends Component implements PermissionsInterface, SingletonInterface
+class PermissionManager implements PermissionsInterface, SingletonInterface
 {
     /**
      * Roles associated with their permissions.
@@ -35,36 +34,24 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
      */
     private $permissions = [];
 
-    /**
-     * @var RulesInterface
-     */
+    /** @var Matcher */
+    private $matcher;
+
+    /**@var RulesInterface */
     private $rules;
 
-    /**
-     * @var Patternizer
-     */
-    private $patternizer;
+    /** @var string */
+    private $defaultRule = ForbidRule::class;
 
     /**
-     * Rule to be used as fallback for a given role.
-     *
-     * @var string
+     * @param RulesInterface $rules
+     * @param string         $defaultRule
      */
-    private $fallbackRule = ForbidRule::class;
-
-    /**
-     * @param RulesInterface   $rules
-     * @param Patternizer|null $patternizer
-     * @param string           $fallbackRule
-     */
-    public function __construct(
-        RulesInterface $rules,
-        Patternizer $patternizer,
-        string $fallbackRule = ForbidRule::class
-    ) {
+    public function __construct(RulesInterface $rules, string $defaultRule = ForbidRule::class)
+    {
+        $this->matcher = new Matcher();
         $this->rules = $rules;
-        $this->patternizer = $patternizer;
-        $this->fallbackRule = $fallbackRule;
+        $this->defaultRule = $defaultRule;
     }
 
     /**
@@ -139,9 +126,7 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
         }
 
         //Behaviour points to rule
-        return $this->rules->get(
-            $this->findRule($role, $permission)
-        );
+        return $this->rules->get($this->findRule($role, $permission));
     }
 
     /**
@@ -149,11 +134,8 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
      *
      * @return $this|self
      */
-    public function associate(
-        string $role,
-        string $permission,
-        string $rule = 'Spiral\Security\Rules\AllowRule'
-    ): PermissionManager {
+    public function associate(string $role, string $permission, string $rule = AllowRule::class): PermissionManager
+    {
         if (!$this->hasRole($role)) {
             throw new RoleException("Undefined role '{$role}'");
         }
@@ -172,7 +154,6 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
      *
      * @param string $role
      * @param string $permission
-     *
      * @return $this|self
      *
      * @throws RoleException
@@ -186,7 +167,6 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
     /**
      * @param string $role
      * @param string $permission
-     *
      * @return string
      *
      * @throws PermissionException
@@ -200,11 +180,11 @@ class PermissionManager extends Component implements PermissionsInterface, Singl
 
         //Matching using star syntax
         foreach ($this->permissions[$role] as $pattern => $rule) {
-            if ($this->patternizer->matches($permission, $pattern)) {
+            if ($this->matcher->matches($permission, $pattern)) {
                 return $rule;
             }
         }
 
-        return $this->fallbackRule;
+        return $this->defaultRule;
     }
 }

@@ -8,13 +8,12 @@
 
 namespace Spiral\Security;
 
-use Spiral\Core\Component;
 use Spiral\Security\Exceptions\GuardException;
 
 /**
  * Checks permissions using given actor.
  */
-final class Guard extends Component implements GuardInterface
+final class Guard implements GuardInterface
 {
     /**
      * @var PermissionsInterface

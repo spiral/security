@@ -30,7 +30,6 @@ interface RulesInterface
      * @param string                              $name Rule name in a string form.
      * @param string|array|callable|RuleInterface $rule Rule, if kept as null rule name must be
      *                                                  treated as class name for RuleInterface.
-     *
      * @throws RuleException
      */
     public function set(string $name, $rule = null);
@@ -39,7 +38,6 @@ interface RulesInterface
      * Remove created rule.
      *
      * @param string $name
-     *
      * @throws RuleException
      */
     public function remove(string $name);
@@ -48,10 +46,9 @@ interface RulesInterface
      * Check if requested rule exists.
      *
      * @param string $name
-     *
      * @return bool
      */
-    public function has(string $name);
+    public function has(string $name): bool;
 
     /**
      * Get rule object based on it's name.
@@ -59,7 +56,6 @@ interface RulesInterface
      * @param string $name
      *
      * @return RuleInterface
-     *
      * @throws RuleException
      */
     public function get(string $name): RuleInterface;

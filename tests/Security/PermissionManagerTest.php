@@ -1,50 +1,44 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security;
+namespace Spiral\Security\Tests;
 
-
+use PHPUnit\Framework\TestCase;
 use Spiral\Security\Exceptions\PermissionException;
 use Spiral\Security\Exceptions\RoleException;
 use Spiral\Security\PermissionManager;
 use Spiral\Security\Rules\AllowRule;
 use Spiral\Security\Rules\ForbidRule;
 use Spiral\Security\RulesInterface;
-use Spiral\Support\Patternizer;
 
 /**
  * Class PermissionManagerTest
  *
- * @package Spiral\Tests\Security
+ * @package Spiral\Security\Tests
  */
-class PermissionManagerTest extends \PHPUnit_Framework_TestCase
+class PermissionManagerTest extends TestCase
 {
-    const ROLE       = 'test';
+    const ROLE = 'test';
     const PERMISSION = 'permission';
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|RulesInterface
+     * @var RulesInterface
      */
     private $rules;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Patternizer
-     */
-    private $patternizer;
 
     public function setUp()
     {
         $this->rules = $this->createMock(RulesInterface::class);
-        $this->patternizer = $this->createMock(Patternizer::class);
     }
 
     public function testRoles()
     {
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $this->assertFalse($manager->hasRole(static::ROLE));
         $this->assertEquals($manager, $manager->addRole(static::ROLE));
@@ -59,7 +53,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testAddRoleException()
     {
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $this->expectException(RoleException::class);
         $manager->addRole(static::ROLE);
@@ -68,7 +62,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveRoleException()
     {
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $this->expectException(RoleException::class);
         $manager->removeRole(static::ROLE);
@@ -83,21 +77,17 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
         $this->rules->method('get')
             ->withConsecutive([AllowRule::class], [AllowRule::class], [ForbidRule::class])
             ->willReturn($allowRule, $allowRule, $forbidRule);
-        $this->patternizer->method('matches')->willReturn(true);
 
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
         $manager->addRole(static::ROLE);
 
         // test simple permission
-        $this->assertEquals($manager,
-            $manager->associate(static::ROLE, static::PERMISSION, AllowRule::class));
+        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION, AllowRule::class));
         $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION));
 
         // test pattern permission
-        $this->assertEquals($manager,
-            $manager->associate(static::ROLE, static::PERMISSION . '*', AllowRule::class));
-        $this->assertEquals($allowRule,
-            $manager->getRule(static::ROLE, static::PERMISSION . '.' . static::PERMISSION));
+        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION . '.*', AllowRule::class));
+        $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION . '.' . static::PERMISSION));
 
         $this->assertEquals($manager, $manager->deassociate(static::ROLE, static::PERMISSION));
         $this->assertEquals($forbidRule, $manager->getRule(static::ROLE, static::PERMISSION));
@@ -105,7 +95,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRuleRoleException()
     {
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $this->expectException(RoleException::class);
         $manager->getRule(static::ROLE, static::PERMISSION);
@@ -114,7 +104,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     public function testRulesForRoleException()
     {
         $this->rules->method('has')->willReturn(true);
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $this->expectException(RoleException::class);
         $manager->getPermissions('admin');
@@ -124,7 +114,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->rules->method('has')->willReturn(true);
 
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $manager->addRole('admin');
         $manager->associate('admin', 'post.edit', AllowRule::class);
@@ -136,7 +126,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFallbackRule()
     {
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
         $manager->addRole(static::ROLE);
 
         $this->rules->method('get')
@@ -151,7 +141,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testAssociateRoleException()
     {
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $this->expectException(RoleException::class);
         $manager->associate(static::ROLE, static::PERMISSION);
@@ -161,7 +151,7 @@ class PermissionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->rules->method('get')->willReturn(false);
 
-        $manager = new PermissionManager($this->rules, $this->patternizer);
+        $manager = new PermissionManager($this->rules);
 
         $manager->addRole(static::ROLE);
         $this->expectException(PermissionException::class);

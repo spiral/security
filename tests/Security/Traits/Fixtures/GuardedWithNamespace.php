@@ -1,18 +1,13 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security\Traits\Fixtures;
+namespace Spiral\Security\Tests\Traits\Fixtures;
 
-
-/**
- * Class GuardedWithNamespace
- *
- * @package Spiral\Tests\Security\Traits\Fixtures
- */
 class GuardedWithNamespace extends Guarded
 {
     const GUARD_NAMESPACE = 'test';

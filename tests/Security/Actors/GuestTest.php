@@ -1,22 +1,19 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Tests\Security\Actors;
+namespace Spiral\Security\Tests\Actors;
 
+use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Actors\Guest;
 
 
-/**
- * Class GuestTest
- *
- * @package Spiral\Tests\Security\Actors
- */
-class GuestTest extends \PHPUnit_Framework_TestCase
+class GuestTest extends TestCase
 {
     public function testGetRoles()
     {

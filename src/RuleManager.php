@@ -8,29 +8,23 @@
 
 namespace Spiral\Security;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Spiral\Core\Container\SingletonInterface;
 use Spiral\Security\Exceptions\RuleException;
 use Spiral\Security\Rules\CallableRule;
 
 /**
- * Provides ability to request permissions rules based on it's name.
+ * Provides ability to request permissions rules based on it's name. Rules are being fetched from container.
  */
 class RuleManager implements RulesInterface, SingletonInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $rules = [];
 
-    /**
-     * @var ContainerInterface
-     */
+    /** @var ContainerInterface */
     protected $container = null;
 
     /**
-     * RuleManager constructor.
-     *
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -117,9 +111,11 @@ class RuleManager implements RulesInterface, SingletonInterface
             $rule = $this->container->get($rule);
 
             if (!$rule instanceof RuleInterface) {
-                throw new RuleException(
-                    "Rule '{$name}' must point to RuleInterface, '" . get_class($rule) . "' given"
-                );
+                throw new RuleException(sprintf(
+                    "Rule '%s' must point to RuleInterface, '%s' given",
+                    $name,
+                    !empty($rule) ? get_class($rule) : "null"
+                ));
             }
 
             return $rule;
@@ -130,8 +126,9 @@ class RuleManager implements RulesInterface, SingletonInterface
     }
 
     /**
-     * @param mixed $rule
+     * Must return true if rule is valid.
      *
+     * @param mixed $rule
      * @return bool
      */
     private function validateRule($rule): bool
@@ -145,7 +142,11 @@ class RuleManager implements RulesInterface, SingletonInterface
         }
 
         if (is_string($rule) && class_exists($rule)) {
-            $reflection = new \ReflectionClass($rule);
+            try {
+                $reflection = new \ReflectionClass($rule);
+            } catch (\ReflectionException $e) {
+                return false;
+            }
 
             return $reflection->isSubclassOf(RuleInterface::class);
         }

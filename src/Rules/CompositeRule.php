@@ -25,7 +25,7 @@ use Spiral\Security\RulesInterface;
  */
 abstract class CompositeRule implements RuleInterface
 {
-    const ALL          = 'ALL';
+    const ALL = 'ALL';
     const AT_LEAST_ONE = 'ONE';
 
     /**
@@ -38,11 +38,7 @@ abstract class CompositeRule implements RuleInterface
      */
     const RULES = [];
 
-    /**
-     * Rules repository.
-     *
-     * @var RulesInterface
-     */
+    /** @var RulesInterface */
     private $repository = null;
 
     /**
