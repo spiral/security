@@ -1,6 +1,12 @@
 CHANGELOG for 0.9.0 RC
 ======================
 
+2.0.0 (25.08.2018)
+-----
+- decoupled from Component
+- new IoC scope support
+- lighter
+
 1.0.6 (15.06.2018)
 -----
 * Guard is no longer creates local class scope but relies on IOC scope.
