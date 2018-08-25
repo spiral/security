@@ -1,22 +1,18 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
 namespace Spiral\Security\Tests\Actors;
 
+use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Actors\NullActor;
 
-
-/**
- * Class NullActorTest
- *
- * @package Spiral\Security\Tests\Actors
- */
-class NullActorTest extends \PHPUnit_Framework_TestCase
+class NullActorTest extends TestCase
 {
     public function testGetRoles()
     {

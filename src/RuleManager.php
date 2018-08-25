@@ -114,7 +114,7 @@ class RuleManager implements RulesInterface, SingletonInterface
                 throw new RuleException(sprintf(
                     "Rule '%s' must point to RuleInterface, '%s' given",
                     $name,
-                    get_class($rule)
+                    !empty($rule) ? get_class($rule) : "null"
                 ));
             }
 

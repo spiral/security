@@ -86,7 +86,7 @@ class PermissionManagerTest extends TestCase
         $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION));
 
         // test pattern permission
-        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION . '*', AllowRule::class));
+        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION . '.*', AllowRule::class));
         $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION . '.' . static::PERMISSION));
 
         $this->assertEquals($manager, $manager->deassociate(static::ROLE, static::PERMISSION));

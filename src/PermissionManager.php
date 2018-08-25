@@ -126,9 +126,7 @@ class PermissionManager implements PermissionsInterface, SingletonInterface
         }
 
         //Behaviour points to rule
-        return $this->rules->get(
-            $this->findRule($role, $permission)
-        );
+        return $this->rules->get($this->findRule($role, $permission));
     }
 
     /**
