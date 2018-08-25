@@ -49,7 +49,7 @@ class GuardedTraitTest extends TestCase
         $this->container->method('has')->willReturn(true);
         $this->container->method('get')->will($this->returnValue($this->guard));
 
-        ContainerScope::globalScope($this->container, function () {
+        ContainerScope::runScope($this->container, function () {
             $this->assertEquals($this->guard, $this->trait->getGuard());
         });
     }
@@ -61,7 +61,7 @@ class GuardedTraitTest extends TestCase
     {
         $this->container->method('has')->willReturn(false);
 
-        ContainerScope::globalScope($this->container, function () {
+        ContainerScope::runScope($this->container, function () {
             $this->assertEquals($this->guard, $this->trait->getGuard());
         });
     }
@@ -85,7 +85,7 @@ class GuardedTraitTest extends TestCase
         $container = new Container();
         $container->bind(GuardInterface::class, $this->guard);
 
-        ContainerScope::globalScope($container, function () use ($guarded) {
+        ContainerScope::runScope($container, function () use ($guarded) {
             $this->assertTrue($guarded->allows(static::OPERATION, static::CONTEXT));
             $this->assertFalse($guarded->denies(static::OPERATION, static::CONTEXT));
         });
