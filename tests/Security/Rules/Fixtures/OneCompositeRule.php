@@ -17,6 +17,6 @@ use Spiral\Security\Rules\CompositeRule;
  */
 class OneCompositeRule extends CompositeRule
 {
-    const RULES     = ['test.create', 'test.update', 'test.delete'];
+    const RULES = ['test.create', 'test.update', 'test.delete'];
     const BEHAVIOUR = self::AT_LEAST_ONE;
 }

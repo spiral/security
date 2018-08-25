@@ -1,12 +1,12 @@
 <?php
 /**
- * Spiral, Core Components
+ * Spiral Framework.
  *
- * @author    Dmitry Mironov <dmitry.mironov@spiralscout.com>
+ * @license   MIT
+ * @author    Anton Titov (Wolfy-J)
  */
 
 namespace Spiral\Security\Tests;
-
 
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
@@ -15,11 +15,6 @@ use Spiral\Security\Guard;
 use Spiral\Security\PermissionsInterface;
 use Spiral\Security\RuleInterface;
 
-/**
- * Class GuardTest
- *
- * @package Spiral\Security\Tests
- */
 class GuardTest extends TestCase
 {
     const OPERATION = 'test';
