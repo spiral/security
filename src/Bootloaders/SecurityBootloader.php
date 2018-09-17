@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security;
+namespace Spiral\Security\Security;
 
 use Spiral\Core\Bootloaders\Bootloader;
 
