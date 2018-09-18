@@ -9,7 +9,7 @@
 namespace Spiral\Security;
 
 use Spiral\Core\ResolverInterface;
-use Spiral\Security\Exceptions\RuleException;
+use Spiral\Security\Exception\RuleException;
 
 /**
  * Rule class provides ability to verify permission request via specified method (by default

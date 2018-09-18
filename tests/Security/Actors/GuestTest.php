@@ -10,7 +10,7 @@ namespace Spiral\Security\Tests\Actors;
 
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
-use Spiral\Security\Actors\Guest;
+use Spiral\Security\Actor\Guest;
 
 
 class GuestTest extends TestCase

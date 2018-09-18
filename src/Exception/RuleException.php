@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security\Exceptions;
+namespace Spiral\Security\Exception;
 
 /**
  * Rule specific exception.

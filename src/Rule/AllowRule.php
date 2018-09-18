@@ -6,22 +6,22 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security\Rules;
+namespace Spiral\Security\Rule;
 
 use Spiral\Core\Container\SingletonInterface;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\RuleInterface;
 
 /**
- * Always negative rule.
+ * Always positive rule.
  */
-final class ForbidRule implements RuleInterface, SingletonInterface
+final class AllowRule implements RuleInterface, SingletonInterface
 {
     /**
      * {@inheritdoc}
      */
     public function allows(ActorInterface $actor, string $permission, array $context): bool
     {
-        return false;
+        return true;
     }
 }

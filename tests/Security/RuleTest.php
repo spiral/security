@@ -11,7 +11,7 @@ namespace Spiral\Security\Tests;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\ResolverInterface;
 use Spiral\Security\ActorInterface;
-use Spiral\Security\Exceptions\RuleException;
+use Spiral\Security\Exception\RuleException;
 use Spiral\Security\Rule;
 
 /**

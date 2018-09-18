@@ -10,10 +10,10 @@ namespace Spiral\Security\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Spiral\Security\Exceptions\RuleException;
+use Spiral\Security\Exception\RuleException;
 use Spiral\Security\RuleInterface;
 use Spiral\Security\RuleManager;
-use Spiral\Security\Rules\CallableRule;
+use Spiral\Security\Rule\CallableRule;
 
 /**
  * Class RuleManagerTest

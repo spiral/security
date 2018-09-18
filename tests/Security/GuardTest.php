@@ -10,7 +10,7 @@ namespace Spiral\Security\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
-use Spiral\Security\Exceptions\GuardException;
+use Spiral\Security\Exception\GuardException;
 use Spiral\Security\Guard;
 use Spiral\Security\PermissionsInterface;
 use Spiral\Security\RuleInterface;

@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security\Exceptions;
+namespace Spiral\Security\Exception;
 
 /**
  * When permission format is invalid or permission does not exists at moment of removal.

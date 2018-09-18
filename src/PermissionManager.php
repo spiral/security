@@ -9,10 +9,10 @@
 namespace Spiral\Security;
 
 use Spiral\Core\Container\SingletonInterface;
-use Spiral\Security\Exceptions\PermissionException;
-use Spiral\Security\Exceptions\RoleException;
-use Spiral\Security\Rules\AllowRule;
-use Spiral\Security\Rules\ForbidRule;
+use Spiral\Security\Exception\PermissionException;
+use Spiral\Security\Exception\RoleException;
+use Spiral\Security\Rule\AllowRule;
+use Spiral\Security\Rule\ForbidRule;
 
 /**
  * Default implementation of associations repository and manager. Provides ability to set

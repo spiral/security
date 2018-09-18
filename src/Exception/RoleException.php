@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security\Exceptions;
+namespace Spiral\Security\Exception;
 
 /**
  * Exceptions relation to role management.

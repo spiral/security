@@ -8,7 +8,7 @@
 
 namespace Spiral\Security;
 
-use Spiral\Security\Exceptions\GuardException;
+use Spiral\Security\Exception\GuardException;
 
 /**
  * Guard interface is responsible for high level permission management.

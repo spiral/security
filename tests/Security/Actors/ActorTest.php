@@ -10,7 +10,7 @@ namespace Spiral\Security\Tests\Actors;
 
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
-use Spiral\Security\Actors\Actor;
+use Spiral\Security\Actor\Actor;
 
 class ActorTest extends TestCase
 {

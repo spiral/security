@@ -8,7 +8,7 @@
 
 namespace Spiral\Security;
 
-use Spiral\Security\Exceptions\RuleException;
+use Spiral\Security\Exception\RuleException;
 
 /**
  * Provides ability to represent security rules using string names.

@@ -6,9 +6,15 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security\Bootloaders;
+namespace Spiral\Security\Bootloader;
 
-use Spiral\Core\Bootloaders\Bootloader;
+use Spiral\Core\Bootloader\Bootloader;
+use Spiral\Security\Guard;
+use Spiral\Security\GuardInterface;
+use Spiral\Security\PermissionManager;
+use Spiral\Security\PermissionsInterface;
+use Spiral\Security\RuleManager;
+use Spiral\Security\RulesInterface;
 
 /**
  * Security bootloader.

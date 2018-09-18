@@ -6,22 +6,20 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security\Actors;
+namespace Spiral\Security\Actor;
 
 use Spiral\Security\ActorInterface;
 
 /**
- * Actor with defined actor.
+ * Actor without any roles.
  */
-class Guest implements ActorInterface
+class NullActor implements ActorInterface
 {
-    const ROLE = 'guest';
-
     /**
      * {@inheritdoc}
      */
     public function getRoles(): array
     {
-        return [static::ROLE];
+        return [];
     }
 }

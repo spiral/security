@@ -8,7 +8,7 @@
 
 namespace Spiral\Security\Tests\Rules\Fixtures;
 
-use Spiral\Security\Rules\CompositeRule;
+use Spiral\Security\Rule\CompositeRule;
 
 /**
  * Class AllCompositeRule

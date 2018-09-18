@@ -11,7 +11,7 @@ namespace Spiral\Security\Tests\Rules;
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\RuleInterface;
-use Spiral\Security\Rules\CallableRule;
+use Spiral\Security\Rule\CallableRule;
 
 class CallableRuleTest extends TestCase
 {

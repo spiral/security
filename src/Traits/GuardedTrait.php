@@ -9,7 +9,7 @@
 namespace Spiral\Security\Traits;
 
 use Spiral\Core\ContainerScope;
-use Spiral\Core\Exceptions\ScopeException;
+use Spiral\Core\Exception\ScopeException;
 use Spiral\Security\GuardInterface;
 
 /**

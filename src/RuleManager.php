@@ -10,8 +10,8 @@ namespace Spiral\Security;
 
 use Psr\Container\ContainerInterface;
 use Spiral\Core\Container\SingletonInterface;
-use Spiral\Security\Exceptions\RuleException;
-use Spiral\Security\Rules\CallableRule;
+use Spiral\Security\Exception\RuleException;
+use Spiral\Security\Rule\CallableRule;
 
 /**
  * Provides ability to request permissions rules based on it's name. Rules are being fetched from container.

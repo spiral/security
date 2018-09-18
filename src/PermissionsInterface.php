@@ -8,8 +8,8 @@
 
 namespace Spiral\Security;
 
-use Spiral\Security\Exceptions\PermissionException;
-use Spiral\Security\Exceptions\RoleException;
+use Spiral\Security\Exception\PermissionException;
+use Spiral\Security\Exception\RoleException;
 
 /**
  * Class responsible for Role/Permission/Rule mapping.

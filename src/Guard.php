@@ -8,7 +8,7 @@
 
 namespace Spiral\Security;
 
-use Spiral\Security\Exceptions\GuardException;
+use Spiral\Security\Exception\GuardException;
 
 /**
  * Checks permissions using given actor.

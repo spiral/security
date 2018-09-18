@@ -55,7 +55,7 @@ class GuardedTraitTest extends TestCase
     }
 
     /**
-     * @expectedException \Spiral\Core\Exceptions\ScopeException
+     * @expectedException \Spiral\Core\Exception\ScopeException
      */
     public function testGuardScopeException()
     {
@@ -67,7 +67,7 @@ class GuardedTraitTest extends TestCase
     }
 
     /**
-     * @expectedException \Spiral\Core\Exceptions\ScopeException
+     * @expectedException \Spiral\Core\Exception\ScopeException
      */
     public function testGuardScopeException2()
     {

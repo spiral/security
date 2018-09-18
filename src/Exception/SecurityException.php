@@ -5,7 +5,7 @@
  * @author Wolfy-J
  */
 
-namespace Spiral\Security\Exceptions;
+namespace Spiral\Security\Exception;
 
 class SecurityException extends \RuntimeException
 {

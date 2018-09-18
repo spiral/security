@@ -9,11 +9,11 @@
 namespace Spiral\Security\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Spiral\Security\Exceptions\PermissionException;
-use Spiral\Security\Exceptions\RoleException;
+use Spiral\Security\Exception\PermissionException;
+use Spiral\Security\Exception\RoleException;
 use Spiral\Security\PermissionManager;
-use Spiral\Security\Rules\AllowRule;
-use Spiral\Security\Rules\ForbidRule;
+use Spiral\Security\Rule\AllowRule;
+use Spiral\Security\Rule\ForbidRule;
 use Spiral\Security\RulesInterface;
 
 /**

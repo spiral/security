@@ -6,7 +6,7 @@
  * @author    Anton Titov (Wolfy-J)
  */
 
-namespace Spiral\Security\Actors;
+namespace Spiral\Security\Actor;
 
 use Spiral\Security\ActorInterface;
 
