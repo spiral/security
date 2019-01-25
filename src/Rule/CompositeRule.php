@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -25,7 +26,7 @@ use Spiral\Security\RulesInterface;
  */
 abstract class CompositeRule implements RuleInterface
 {
-    const ALL = 'ALL';
+    const ALL          = 'ALL';
     const AT_LEAST_ONE = 'ONE';
 
     /**
