@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -15,7 +14,7 @@ use Spiral\Security\GuardInterface;
 
 /**
  * Embeds GuardInterface functionality into class and provides ability to isolate permissions
- * using guard namespace.
+ * using guard namespace. GuardedTrait operates using global container scope.
  */
 trait GuardedTrait
 {

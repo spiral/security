@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -14,7 +13,7 @@ use Spiral\Security\ActorInterface;
 /**
  * Actor without any roles.
  */
-class NullActor implements ActorInterface
+final class NullActor implements ActorInterface
 {
     /**
      * {@inheritdoc}

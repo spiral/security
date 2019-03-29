@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -17,7 +16,7 @@ use Spiral\Security\Rule\CallableRule;
 /**
  * Provides ability to request permissions rules based on it's name. Rules are being fetched from container.
  */
-class RuleManager implements RulesInterface, SingletonInterface
+final class RuleManager implements RulesInterface, SingletonInterface
 {
     /** @var array */
     private $rules = [];

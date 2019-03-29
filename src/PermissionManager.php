@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -26,7 +25,7 @@ use Spiral\Security\Rule\ForbidRule;
  * $associations->associate('editor', 'posts.*', Allows::class);
  * $associations->associate('user', 'posts.*', Forbid::class);
  */
-class PermissionManager implements PermissionsInterface, SingletonInterface
+final class PermissionManager implements PermissionsInterface, SingletonInterface
 {
     /**
      * Roles associated with their permissions.

@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -16,7 +15,7 @@ namespace Spiral\Security;
  * post.*
  * post.(save|delete)
  */
-class Matcher
+final class Matcher
 {
     /**
      * @param string $string
