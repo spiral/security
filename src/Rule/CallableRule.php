@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Spiral Framework.
  *
  * @license   MIT
  * @author    Anton Titov (Wolfy-J)
  */
+declare(strict_types=1);
 
 namespace Spiral\Security\Rule;
 
@@ -14,7 +15,7 @@ use Spiral\Security\RuleInterface;
 /**
  * Wraps callable expression.
  */
-class CallableRule implements RuleInterface
+final class CallableRule implements RuleInterface
 {
     /**
      * @var callable
