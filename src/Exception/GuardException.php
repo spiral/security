@@ -14,5 +14,4 @@ namespace Spiral\Security\Exception;
  */
 class GuardException extends SecurityException
 {
-
 }

@@ -11,5 +11,4 @@ namespace Spiral\Security\Exception;
 
 class SecurityException extends \RuntimeException
 {
-
 }

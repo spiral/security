@@ -44,8 +44,10 @@ class CompositeRuleTest extends TestCase
 
         /** @var RuleInterface $rule */
         $rule = new $compositeRuleClass($repository);
-        $this->assertEquals($expected,
-            $rule->allows($this->actor, static::OPERATION, static::CONTEXT));
+        $this->assertEquals(
+            $expected,
+            $rule->allows($this->actor, static::OPERATION, static::CONTEXT)
+        );
     }
 
     public function allowsProvider()
