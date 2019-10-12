@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -14,7 +17,7 @@ use Spiral\Security\Actor\NullActor;
 
 class NullActorTest extends TestCase
 {
-    public function testGetRoles()
+    public function testGetRoles(): void
     {
         /** @var ActorInterface $actor */
         $actor = new NullActor();

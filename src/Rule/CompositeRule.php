@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -26,18 +27,14 @@ use Spiral\Security\RulesInterface;
  */
 abstract class CompositeRule implements RuleInterface
 {
-    const ALL          = 'ALL';
-    const AT_LEAST_ONE = 'ONE';
+    protected const ALL          = 'ALL';
+    protected const AT_LEAST_ONE = 'ONE';
 
-    /**
-     * How to process results on sub rules.
-     */
-    const BEHAVIOUR = self::ALL;
+    /** How to process results on sub rules. */
+    protected const BEHAVIOUR = self::ALL;
 
-    /**
-     * List of rules to be composited.
-     */
-    const RULES = [];
+    /** List of rules to be composited. */
+    protected const RULES = [];
 
     /** @var RulesInterface */
     private $repository = null;

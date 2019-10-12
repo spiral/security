@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * /**
  * Spiral Framework.
@@ -21,10 +24,10 @@ use Spiral\Security\Rule\ForbidRule;
  */
 class ForbidRuleTest extends TestCase
 {
-    const OPERATION = 'test';
-    const CONTEXT = [];
+    public const OPERATION = 'test';
+    public const CONTEXT = [];
 
-    public function testAllow()
+    public function testAllow(): void
     {
         /** @var RuleInterface $rule */
         $rule = new ForbidRule();

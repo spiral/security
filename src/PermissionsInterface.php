@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -19,7 +20,6 @@ interface PermissionsInterface
 {
     /**
      * @param string $role
-     *
      * @return bool
      */
     public function hasRole(string $role): bool;
@@ -53,7 +53,6 @@ interface PermissionsInterface
      * Get list of all permissions and their rules associated with given role.
      *
      * @param string $role
-     *
      * @return array
      *
      * @throws RoleException
@@ -65,7 +64,6 @@ interface PermissionsInterface
      *
      * @param string $role
      * @param string $permission
-     *
      * @return RuleInterface
      *
      * @throws RoleException
@@ -84,15 +82,15 @@ interface PermissionsInterface
      *
      * You can always create composite rules by creating decorating rule.
      *
-     * @see GuardInterface::ALLOW
-     * @see addRole()
-     *
      * @param string $role
      * @param string $permission
      * @param string $rule Rule name previously registered in RulesInterface.
      *
      * @throws RoleException
      * @throws PermissionException
+     *
+     * @see addRole()
+     * @see GuardInterface::ALLOW
      */
     public function associate(
         string $role,

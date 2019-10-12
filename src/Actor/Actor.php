@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -16,9 +17,7 @@ use Spiral\Security\ActorInterface;
  */
 class Actor implements ActorInterface
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $roles = [];
 
     /**

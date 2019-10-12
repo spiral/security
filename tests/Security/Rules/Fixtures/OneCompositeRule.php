@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -17,6 +20,6 @@ use Spiral\Security\Rule\CompositeRule;
  */
 class OneCompositeRule extends CompositeRule
 {
-    const RULES = ['test.create', 'test.update', 'test.delete'];
-    const BEHAVIOUR = self::AT_LEAST_ONE;
+    public const RULES = ['test.create', 'test.update', 'test.delete'];
+    public const BEHAVIOUR = self::AT_LEAST_ONE;
 }

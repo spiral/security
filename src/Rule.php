@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -29,14 +30,14 @@ use Spiral\Security\Exception\RuleException;
 abstract class Rule implements RuleInterface
 {
     //Method to be used for checking (support for method injection).
-    const CHECK_METHOD = 'check';
+    protected const CHECK_METHOD = 'check';
 
     /**
      * Set of aliases to be used for method injection.
      *
      * @var array
      */
-    const ALIASES = [
+    protected const ALIASES = [
         'user' => 'actor'
     ];
 
@@ -75,7 +76,7 @@ abstract class Rule implements RuleInterface
         try {
             return $method->invokeArgs($this, $this->resolver->resolveArguments($method, $parameters));
         } catch (\Throwable $e) {
-            throw new RuleException(sprintf("[%s] %s", get_class($this), $e->getMessage()), $e->getCode(), $e);
+            throw new RuleException(sprintf('[%s] %s', get_class($this), $e->getMessage()), $e->getCode(), $e);
         }
     }
 }

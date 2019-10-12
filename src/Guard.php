@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -16,21 +17,13 @@ use Spiral\Security\Exception\GuardException;
  */
 final class Guard implements GuardInterface
 {
-    /**
-     * @var PermissionsInterface
-     */
+    /** @var PermissionsInterface */
     private $permissions = null;
 
-    /**
-     * @var ActorInterface|null
-     */
+    /** @var ActorInterface|null */
     private $actor = null;
 
-    /**
-     * Session specific roles.
-     *
-     * @var array
-     */
+    /** @var array */
     private $roles = [];
 
     /**
@@ -84,7 +77,6 @@ final class Guard implements GuardInterface
      * Create instance of guard with session specific roles (existed roles will be droppped).
      *
      * @param array $roles
-     *
      * @return self
      */
     public function withRoles(array $roles): Guard
@@ -103,7 +95,7 @@ final class Guard implements GuardInterface
     public function getActor(): ActorInterface
     {
         if (empty($this->actor)) {
-            throw new GuardException("Unable to get Guard Actor, no value set");
+            throw new GuardException('Unable to get Guard Actor, no value set');
         }
 
         return $this->actor;

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -21,8 +24,8 @@ use Spiral\Security\Rule;
  */
 class RuleTest extends TestCase
 {
-    const OPERATION = 'test';
-    const CONTEXT = [];
+    public const OPERATION = 'test';
+    public const CONTEXT = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface
@@ -39,13 +42,13 @@ class RuleTest extends TestCase
      */
     private $rule;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->actor = $this->createMock(ActorInterface::class);
         $this->resolver = $this->createMock(ResolverInterface::class);
         $this->rule = $this->getMockBuilder(Rule::class)
             ->setConstructorArgs([$this->resolver])
-            ->setMethods([Rule::CHECK_METHOD])->getMock();
+            ->setMethods(['check'])->getMock();
     }
 
     /**
@@ -55,7 +58,7 @@ class RuleTest extends TestCase
      *
      * @dataProvider allowsProvider
      */
-    public function testAllows($permission, $context, $allowed)
+    public function testAllows($permission, $context, $allowed): void
     {
         $parameters = [
                 'actor'      => $this->actor,
@@ -64,7 +67,7 @@ class RuleTest extends TestCase
                 'context'    => $context,
             ] + $context;
 
-        $method = new \ReflectionMethod($this->rule, Rule::CHECK_METHOD);
+        $method = new \ReflectionMethod($this->rule, 'check');
         $this->resolver
             ->expects($this->once())
             ->method('resolveArguments')
@@ -73,14 +76,14 @@ class RuleTest extends TestCase
 
         $this->rule
             ->expects($this->once())
-            ->method(Rule::CHECK_METHOD)
+            ->method('check')
             ->with($parameters)
             ->willReturn($allowed);
 
         $this->assertEquals($allowed, $this->rule->allows($this->actor, $permission, $context));
     }
 
-    public function testAllowsException()
+    public function testAllowsException(): void
     {
         $this->expectException(RuleException::class);
         $this->rule->allows($this->actor, static::OPERATION, static::CONTEXT);

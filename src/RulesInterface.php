@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -55,8 +56,8 @@ interface RulesInterface
      * Get rule object based on it's name.
      *
      * @param string $name
-     *
      * @return RuleInterface
+     *
      * @throws RuleException
      */
     public function get(string $name): RuleInterface;

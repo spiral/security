@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -19,11 +20,11 @@ use Spiral\Security\Rule\CallableRule;
  */
 final class RuleManager implements RulesInterface, SingletonInterface
 {
+    /** @var ContainerInterface */
+    private $container = null;
+
     /** @var array */
     private $rules = [];
-
-    /** @var ContainerInterface */
-    protected $container = null;
 
     /**
      * @param ContainerInterface $container
@@ -115,7 +116,7 @@ final class RuleManager implements RulesInterface, SingletonInterface
                 throw new RuleException(sprintf(
                     "Rule '%s' must point to RuleInterface, '%s' given",
                     $name,
-                    !empty($rule) ? get_class($rule) : "null"
+                    !empty($rule) ? get_class($rule) : 'null'
                 ));
             }
 

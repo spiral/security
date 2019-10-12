@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -17,8 +20,8 @@ use Spiral\Security\RuleInterface;
 
 class GuardTest extends TestCase
 {
-    const OPERATION = 'test';
-    const CONTEXT = [];
+    public const OPERATION = 'test';
+    public const CONTEXT = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|PermissionsInterface
@@ -35,13 +38,13 @@ class GuardTest extends TestCase
      */
     private $roles = ['user', 'admin'];
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->permission = $this->createMock(PermissionsInterface::class);
         $this->actor = $this->createMock(ActorInterface::class);
     }
 
-    public function testAllows()
+    public function testAllows(): void
     {
         $this->permission->method('hasRole')
             ->withConsecutive(['user'], ['admin'])
@@ -59,7 +62,7 @@ class GuardTest extends TestCase
         $this->assertTrue($guard->allows(static::OPERATION, static::CONTEXT));
     }
 
-    public function testAllowsPermissionsHasNoRole()
+    public function testAllowsPermissionsHasNoRole(): void
     {
         $this->permission->method('hasRole')->with($this->anything())->willReturn(false);
 
@@ -67,7 +70,7 @@ class GuardTest extends TestCase
         $this->assertFalse($guard->allows(static::OPERATION, static::CONTEXT));
     }
 
-    public function testAllowsNoActor()
+    public function testAllowsNoActor(): void
     {
         $guard = new Guard($this->permission, null, $this->roles);
 
@@ -75,7 +78,7 @@ class GuardTest extends TestCase
         $guard->allows(static::OPERATION, static::CONTEXT);
     }
 
-    public function testWithActor()
+    public function testWithActor(): void
     {
         $guard = new Guard($this->permission);
         $guardWithActor = $guard->withActor($this->actor);
@@ -84,7 +87,7 @@ class GuardTest extends TestCase
         $this->assertNotEquals($guard, $guardWithActor);
     }
 
-    public function testWithRoles()
+    public function testWithRoles(): void
     {
         $guard = new Guard($this->permission, $this->actor);
         $guardWithRoles = $guard->withRoles($this->roles);

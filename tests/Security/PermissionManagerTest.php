@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -23,20 +26,20 @@ use Spiral\Security\RulesInterface;
  */
 class PermissionManagerTest extends TestCase
 {
-    const ROLE = 'test';
-    const PERMISSION = 'permission';
+    public const ROLE = 'test';
+    public const PERMISSION = 'permission';
 
     /**
      * @var RulesInterface
      */
     private $rules;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->rules = $this->createMock(RulesInterface::class);
     }
 
-    public function testRoles()
+    public function testRoles(): void
     {
         $manager = new PermissionManager($this->rules);
 
@@ -51,7 +54,7 @@ class PermissionManagerTest extends TestCase
         $this->assertEquals(['one', 'two'], $manager->getRoles());
     }
 
-    public function testAddRoleException()
+    public function testAddRoleException(): void
     {
         $manager = new PermissionManager($this->rules);
 
@@ -60,7 +63,7 @@ class PermissionManagerTest extends TestCase
         $manager->addRole(static::ROLE);
     }
 
-    public function testRemoveRoleException()
+    public function testRemoveRoleException(): void
     {
         $manager = new PermissionManager($this->rules);
 
@@ -68,7 +71,7 @@ class PermissionManagerTest extends TestCase
         $manager->removeRole(static::ROLE);
     }
 
-    public function testAssociation()
+    public function testAssociation(): void
     {
         $allowRule = new AllowRule();
         $forbidRule = new ForbidRule();
@@ -93,7 +96,7 @@ class PermissionManagerTest extends TestCase
         $this->assertEquals($forbidRule, $manager->getRule(static::ROLE, static::PERMISSION));
     }
 
-    public function testGetRuleRoleException()
+    public function testGetRuleRoleException(): void
     {
         $manager = new PermissionManager($this->rules);
 
@@ -101,7 +104,7 @@ class PermissionManagerTest extends TestCase
         $manager->getRule(static::ROLE, static::PERMISSION);
     }
 
-    public function testRulesForRoleException()
+    public function testRulesForRoleException(): void
     {
         $this->rules->method('has')->willReturn(true);
         $manager = new PermissionManager($this->rules);
@@ -110,7 +113,7 @@ class PermissionManagerTest extends TestCase
         $manager->getPermissions('admin');
     }
 
-    public function testRulesForRole()
+    public function testRulesForRole(): void
     {
         $this->rules->method('has')->willReturn(true);
 
@@ -124,7 +127,7 @@ class PermissionManagerTest extends TestCase
         ], $manager->getPermissions('admin'));
     }
 
-    public function testGetFallbackRule()
+    public function testGetFallbackRule(): void
     {
         $manager = new PermissionManager($this->rules);
         $manager->addRole(static::ROLE);
@@ -139,7 +142,7 @@ class PermissionManagerTest extends TestCase
         );
     }
 
-    public function testAssociateRoleException()
+    public function testAssociateRoleException(): void
     {
         $manager = new PermissionManager($this->rules);
 
@@ -147,7 +150,7 @@ class PermissionManagerTest extends TestCase
         $manager->associate(static::ROLE, static::PERMISSION);
     }
 
-    public function testAssociatePermissionException()
+    public function testAssociatePermissionException(): void
     {
         $this->rules->method('get')->willReturn(false);
 

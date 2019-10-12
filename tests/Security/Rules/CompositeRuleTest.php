@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -18,15 +21,15 @@ use Spiral\Security\Tests\Rules\Fixtures\OneCompositeRule;
 
 class CompositeRuleTest extends TestCase
 {
-    const OPERATION = 'test';
-    const CONTEXT = [];
+    public const OPERATION = 'test';
+    public const CONTEXT = [];
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface $callable
      */
     private $actor;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->actor = $this->createMock(ActorInterface::class);
     }
@@ -38,7 +41,7 @@ class CompositeRuleTest extends TestCase
      *
      * @dataProvider allowsProvider
      */
-    public function testAllow($expected, $compositeRuleClass, $rules)
+    public function testAllow($expected, $compositeRuleClass, $rules): void
     {
         $repository = $this->createRepository($rules);
 

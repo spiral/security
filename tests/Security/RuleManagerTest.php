@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -22,7 +25,7 @@ use Spiral\Security\Rule\CallableRule;
  */
 class RuleManagerTest extends TestCase
 {
-    const RULE_NAME = 'test';
+    public const RULE_NAME = 'test';
 
     /**
      * @var ContainerInterface
@@ -34,13 +37,13 @@ class RuleManagerTest extends TestCase
      */
     private $rule;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->createMock(ContainerInterface::class);
         $this->rule = $this->createMock(RuleInterface::class);
     }
 
-    public function testFlow()
+    public function testFlow(): void
     {
         $ruleClass = get_class($this->rule);
 
@@ -65,7 +68,7 @@ class RuleManagerTest extends TestCase
         $this->assertTrue($manager->get('Array') instanceof CallableRule);
     }
 
-    public function testHasWithNotRegisteredClass()
+    public function testHasWithNotRegisteredClass(): void
     {
         $ruleClass = get_class($this->rule);
         $manager = new RuleManager($this->container);
@@ -73,7 +76,7 @@ class RuleManagerTest extends TestCase
         $this->assertTrue($manager->has($ruleClass));
     }
 
-    public function testSetRuleException()
+    public function testSetRuleException(): void
     {
         $manager = new RuleManager($this->container);
 
@@ -81,7 +84,7 @@ class RuleManagerTest extends TestCase
         $manager->set(self::RULE_NAME);
     }
 
-    public function testRemoveException()
+    public function testRemoveException(): void
     {
         $this->container->method('has')->with(self::RULE_NAME)->willReturn(false);
 
@@ -91,7 +94,7 @@ class RuleManagerTest extends TestCase
         $manager->remove(self::RULE_NAME);
     }
 
-    public function testGetWithUndefinedRule()
+    public function testGetWithUndefinedRule(): void
     {
         $this->container->method('has')->with(self::RULE_NAME)->willReturn(false);
 
@@ -101,7 +104,7 @@ class RuleManagerTest extends TestCase
         $manager->get(static::RULE_NAME);
     }
 
-    public function testGetWithSomethingOtherThanRule()
+    public function testGetWithSomethingOtherThanRule(): void
     {
         $ruleClass = \stdClass::class;
         $this->container->method('has')->with(self::RULE_NAME)->willReturn(true);

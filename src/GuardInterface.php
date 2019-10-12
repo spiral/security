@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -22,7 +23,6 @@ interface GuardInterface
      *
      * @param string $permission
      * @param array  $context Permissions specific context.
-     *
      * @return bool
      *
      * @throws GuardException
@@ -43,7 +43,6 @@ interface GuardInterface
      * alter existed guard which has to be counted as immutable.
      *
      * @param ActorInterface $actor
-     *
      * @return self
      */
     public function withActor(ActorInterface $actor): GuardInterface;

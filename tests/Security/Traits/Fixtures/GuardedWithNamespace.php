@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Spiral Framework.
  *
@@ -10,5 +13,5 @@ namespace Spiral\Security\Tests\Traits\Fixtures;
 
 class GuardedWithNamespace extends Guarded
 {
-    const GUARD_NAMESPACE = 'test';
+    public const GUARD_NAMESPACE = 'test';
 }
