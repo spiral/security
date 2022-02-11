@@ -16,10 +16,10 @@
     ],
     "require": {
         "php": ">=7.2",
-        "spiral/core": "^2.9.1"
+        "spiral/core": "^2.10"
     },
     "require-dev": {
-        "spiral/console": "^2.9.1",
+        "spiral/console": "^2.10",
         "phpunit/phpunit": "^8.5|^9.5"
     },
     "autoload": {
@@ -34,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.9.x-dev"
+            "dev-master": "2.10.x-dev"
         }
     },
     "config": {
