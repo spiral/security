@@ -17,12 +17,12 @@ class GuardTest extends TestCase
     public const CONTEXT = [];
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|PermissionsInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|PermissionsInterface
      */
     private $permission;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ActorInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface
      */
     private $actor;
 
