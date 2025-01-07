@@ -15,6 +15,6 @@ class GuestTest extends TestCase
         /** @var ActorInterface $actor */
         $actor = new Guest();
 
-        self::assertEquals([Guest::ROLE], $actor->getRoles());
+        $this->assertEquals([Guest::ROLE], $actor->getRoles());
     }
 }

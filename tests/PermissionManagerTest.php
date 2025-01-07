@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Spiral\Tests\Security;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\Exception\PermissionException;
 use Spiral\Security\Exception\RoleException;
@@ -24,7 +23,10 @@ class PermissionManagerTest extends TestCase
     public const ROLE = 'test';
     public const PERMISSION = 'permission';
 
-    private MockObject&RulesInterface $rules;
+    /**
+     * @var RulesInterface
+     */
+    private $rules;
 
     public function setUp(): void
     {
@@ -35,15 +37,15 @@ class PermissionManagerTest extends TestCase
     {
         $manager = new PermissionManager($this->rules);
 
-        self::assertFalse($manager->hasRole(static::ROLE));
-        self::assertEquals($manager, $manager->addRole(static::ROLE));
-        self::assertTrue($manager->hasRole(static::ROLE));
-        self::assertEquals($manager, $manager->removeRole(static::ROLE));
-        self::assertFalse($manager->hasRole(static::ROLE));
+        $this->assertFalse($manager->hasRole(static::ROLE));
+        $this->assertEquals($manager, $manager->addRole(static::ROLE));
+        $this->assertTrue($manager->hasRole(static::ROLE));
+        $this->assertEquals($manager, $manager->removeRole(static::ROLE));
+        $this->assertFalse($manager->hasRole(static::ROLE));
 
         $manager->addRole('one');
         $manager->addRole('two');
-        self::assertSame(['one', 'two'], $manager->getRoles());
+        $this->assertEquals(['one', 'two'], $manager->getRoles());
     }
 
     public function testAddRoleException(): void
@@ -87,15 +89,15 @@ class PermissionManagerTest extends TestCase
         $manager->addRole(static::ROLE);
 
         // test simple permission
-        self::assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION, AllowRule::class));
-        self::assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION));
+        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION, AllowRule::class));
+        $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION));
 
         // test pattern permission
-        self::assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION . '.*', AllowRule::class));
-        self::assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION . '.' . static::PERMISSION));
+        $this->assertEquals($manager, $manager->associate(static::ROLE, static::PERMISSION . '.*', AllowRule::class));
+        $this->assertEquals($allowRule, $manager->getRule(static::ROLE, static::PERMISSION . '.' . static::PERMISSION));
 
-        self::assertEquals($manager, $manager->deassociate(static::ROLE, static::PERMISSION));
-        self::assertEquals($forbidRule, $manager->getRule(static::ROLE, static::PERMISSION));
+        $this->assertEquals($manager, $manager->deassociate(static::ROLE, static::PERMISSION));
+        $this->assertEquals($forbidRule, $manager->getRule(static::ROLE, static::PERMISSION));
     }
 
     public function testGetRuleRoleException(): void
@@ -124,7 +126,7 @@ class PermissionManagerTest extends TestCase
         $manager->addRole('admin');
         $manager->associate('admin', 'post.edit', AllowRule::class);
 
-        self::assertSame([
+        $this->assertSame([
             'post.edit' => AllowRule::class
         ], $manager->getPermissions('admin'));
     }
@@ -138,7 +140,10 @@ class PermissionManagerTest extends TestCase
             ->with(ForbidRule::class)
             ->willReturn(new ForbidRule());
 
-        self::assertInstanceOf(ForbidRule::class, $manager->getRule(static::ROLE, static::PERMISSION));
+        $this->assertInstanceOf(
+            ForbidRule::class,
+            $manager->getRule(static::ROLE, static::PERMISSION)
+        );
     }
 
     public function testAssociateRoleException(): void

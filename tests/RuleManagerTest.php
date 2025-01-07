@@ -44,18 +44,18 @@ class RuleManagerTest extends TestCase
 
         $manager = new RuleManager($this->container);
 
-        self::assertEquals($manager, $manager->set(self::RULE_NAME, $ruleClass));
-        self::assertTrue($manager->has(self::RULE_NAME));
-        self::assertEquals($this->rule, $manager->get(self::RULE_NAME));
-        self::assertEquals($manager, $manager->remove(self::RULE_NAME));
+        $this->assertEquals($manager, $manager->set(self::RULE_NAME, $ruleClass));
+        $this->assertTrue($manager->has(self::RULE_NAME));
+        $this->assertEquals($this->rule, $manager->get(self::RULE_NAME));
+        $this->assertEquals($manager, $manager->remove(self::RULE_NAME));
 
         // other rule types
         $manager->set('RuleInterface', $this->rule);
-        self::assertEquals($this->rule, $manager->get('RuleInterface'));
-        $manager->set('Closure', static fn(): bool => true);
-        self::assertInstanceOf(\Spiral\Security\Rule\CallableRule::class, $manager->get('Closure'));
+        $this->assertEquals($this->rule, $manager->get('RuleInterface'));
+        $manager->set('Closure', fn() => true);
+        $this->assertTrue($manager->get('Closure') instanceof CallableRule);
         $manager->set('Array', $this->testFlow(...));
-        self::assertInstanceOf(\Spiral\Security\Rule\CallableRule::class, $manager->get('Array'));
+        $this->assertTrue($manager->get('Array') instanceof CallableRule);
     }
 
     public function testHasWithNotRegisteredClass(): void
@@ -63,7 +63,7 @@ class RuleManagerTest extends TestCase
         $ruleClass = $this->rule::class;
         $manager = new RuleManager($this->container);
 
-        self::assertTrue($manager->has($ruleClass));
+        $this->assertTrue($manager->has($ruleClass));
     }
 
     public function testSetRuleException(): void
