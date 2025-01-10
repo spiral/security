@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Tests\Security;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\ResolverInterface;
 use Spiral\Security\ActorInterface;
@@ -21,20 +22,11 @@ class RuleTest extends TestCase
     public const OPERATION = 'test';
     public const CONTEXT = [];
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface
-     */
-    private $actor;
+    private MockObject&ActorInterface $actor;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ResolverInterface
-     */
-    private $resolver;
+    private MockObject&ResolverInterface $resolver;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Rule
-     */
-    private $rule;
+    private MockObject&Rule $rule;
 
     protected function setUp(): void
     {
@@ -68,7 +60,7 @@ class RuleTest extends TestCase
             ->with($parameters)
             ->willReturn($allowed);
 
-        $this->assertEquals($allowed, $this->rule->allows($this->actor, $permission, $context));
+        self::assertSame($allowed, $this->rule->allows($this->actor, $permission, $context));
     }
 
     public function testAllowsException(): void

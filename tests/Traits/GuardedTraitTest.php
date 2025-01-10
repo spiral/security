@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\Tests\Security\Traits;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Spiral\Core\Container;
@@ -19,24 +20,17 @@ class GuardedTraitTest extends TestCase
     public const OPERATION = 'test';
     public const CONTEXT   = [];
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|GuardedTrait
-     */
-    private $trait;
+    private object $trait;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|GuardInterface
-     */
-    private $guard;
+    private MockObject&GuardInterface $guard;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ContainerInterface
-     */
-    private $container;
+    private MockObject&ContainerInterface $container;
 
     public function setUp(): void
     {
-        $this->trait = $this->getMockForTrait(GuardedTrait::class);
+        $this->trait = new class {
+            use GuardedTrait;
+        };
         $this->guard = $this->createMock(GuardInterface::class);
         $this->container = $this->createMock(ContainerInterface::class);
     }
@@ -44,10 +38,10 @@ class GuardedTraitTest extends TestCase
     public function testGetGuardFromContainer(): void
     {
         $this->container->method('has')->willReturn(true);
-        $this->container->method('get')->will($this->returnValue($this->guard));
+        $this->container->method('get')->willReturn($this->guard);
 
         ContainerScope::runScope($this->container, function (): void {
-            $this->assertEquals($this->guard, $this->trait->getGuard());
+            self::assertEquals($this->guard, $this->trait->getGuard());
         });
     }
 
@@ -58,7 +52,7 @@ class GuardedTraitTest extends TestCase
         $this->container->method('has')->willReturn(false);
 
         ContainerScope::runScope($this->container, function (): void {
-            $this->assertEquals($this->guard, $this->trait->getGuard());
+            self::assertEquals($this->guard, $this->trait->getGuard());
         });
     }
 
@@ -66,14 +60,14 @@ class GuardedTraitTest extends TestCase
     {
         $this->expectException(ScopeException::class);
 
-        $this->assertEquals($this->guard, $this->trait->getGuard());
+        self::assertEquals($this->guard, $this->trait->getGuard());
     }
 
     public function testAllows(): void
     {
         $this->guard->method('allows')
             ->with(static::OPERATION, static::CONTEXT)
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
 
         $guarded = new Guarded();
@@ -82,18 +76,18 @@ class GuardedTraitTest extends TestCase
         $container->bind(GuardInterface::class, $this->guard);
 
         ContainerScope::runScope($container, function () use ($guarded): void {
-            $this->assertTrue($guarded->allows(static::OPERATION, static::CONTEXT));
-            $this->assertFalse($guarded->denies(static::OPERATION, static::CONTEXT));
+            self::assertTrue($guarded->allows(static::OPERATION, static::CONTEXT));
+            self::assertFalse($guarded->denies(static::OPERATION, static::CONTEXT));
         });
     }
 
     public function testResolvePermission(): void
     {
         $guarded = new Guarded();
-        $this->assertEquals(static::OPERATION, $guarded->resolvePermission(static::OPERATION));
+        self::assertSame(static::OPERATION, $guarded->resolvePermission(static::OPERATION));
 
         $guarded = new GuardedWithNamespace();
         $resolvedPermission = GuardedWithNamespace::GUARD_NAMESPACE . '.' . static::OPERATION;
-        $this->assertEquals($resolvedPermission, $guarded->resolvePermission(static::OPERATION));
+        self::assertSame($resolvedPermission, $guarded->resolvePermission(static::OPERATION));
     }
 }
