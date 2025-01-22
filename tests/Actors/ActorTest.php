@@ -17,6 +17,6 @@ class ActorTest extends TestCase
         /** @var ActorInterface $actor */
         $actor = new Actor($roles);
 
-        self::assertEquals($roles, $actor->getRoles());
+        $this->assertEquals($roles, $actor->getRoles());
     }
 }

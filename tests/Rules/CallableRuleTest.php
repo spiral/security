@@ -20,7 +20,7 @@ class CallableRuleTest extends TestCase
         $actor = $this->createMock(ActorInterface::class);
         $context = [];
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|callable $callable */
+        /** @var \PHPUnit_Framework_MockObject_MockObject|callable $callable */
         $callable = $this->getMockBuilder(\stdClass::class)
             ->addMethods(['__invoke'])
             ->getMock();
@@ -32,7 +32,7 @@ class CallableRuleTest extends TestCase
         /** @var RuleInterface $rule */
         $rule = new CallableRule($callable);
 
-        self::assertTrue($rule->allows($actor, static::OPERATION, $context));
-        self::assertFalse($rule->allows($actor, static::OPERATION, $context));
+        $this->assertTrue($rule->allows($actor, static::OPERATION, $context));
+        $this->assertFalse($rule->allows($actor, static::OPERATION, $context));
     }
 }
