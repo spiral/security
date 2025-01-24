@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Tests\Security;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Spiral\Core\ResolverInterface;
 use Spiral\Security\ActorInterface;
@@ -21,39 +22,27 @@ class RuleTest extends TestCase
     public const OPERATION = 'test';
     public const CONTEXT = [];
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface
-     */
-    private $actor;
+    private MockObject&ActorInterface $actor;
+    private MockObject&ResolverInterface $resolver;
+    private MockObject&Rule $rule;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ResolverInterface
-     */
-    private $resolver;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Rule
-     */
-    private $rule;
-
-    protected function setUp(): void
+    public static function allowsProvider(): \Traversable
     {
-        $this->actor = $this->createMock(ActorInterface::class);
-        $this->resolver = $this->createMock(ResolverInterface::class);
-        $this->rule = $this->getMockBuilder(Rule::class)
-            ->setConstructorArgs([$this->resolver])
-            ->addMethods(['check'])->getMock();
+        yield ['test.create', [], false];
+        yield ['test.create', [], true];
+        yield ['test.create', ['a' => 'b'], false];
+        yield ['test.create', ['a' => 'b'], true];
     }
 
     #[DataProvider('allowsProvider')]
     public function testAllows(string $permission, array $context, bool $allowed): void
     {
         $parameters = [
-                'actor'      => $this->actor,
-                'user'       => $this->actor,
-                'permission' => $permission,
-                'context'    => $context,
-            ] + $context;
+            'actor'      => $this->actor,
+            'user'       => $this->actor,
+            'permission' => $permission,
+            'context'    => $context,
+        ] + $context;
 
         $method = new \ReflectionMethod($this->rule, 'check');
         $this->resolver
@@ -68,7 +57,7 @@ class RuleTest extends TestCase
             ->with($parameters)
             ->willReturn($allowed);
 
-        $this->assertEquals($allowed, $this->rule->allows($this->actor, $permission, $context));
+        self::assertSame($allowed, $this->rule->allows($this->actor, $permission, $context));
     }
 
     public function testAllowsException(): void
@@ -77,11 +66,12 @@ class RuleTest extends TestCase
         $this->rule->allows($this->actor, static::OPERATION, static::CONTEXT);
     }
 
-    public static function allowsProvider(): \Traversable
+    protected function setUp(): void
     {
-        yield ['test.create', [], false];
-        yield ['test.create', [], true];
-        yield ['test.create', ['a' => 'b'], false];
-        yield ['test.create', ['a' => 'b'], true];
+        $this->actor = $this->createMock(ActorInterface::class);
+        $this->resolver = $this->createMock(ResolverInterface::class);
+        $this->rule = $this->getMockBuilder(Rule::class)
+            ->setConstructorArgs([$this->resolver])
+            ->addMethods(['check'])->getMock();
     }
 }
