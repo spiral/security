@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Spiral\Tests\Security;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Exception\GuardException;
@@ -12,19 +11,36 @@ use Spiral\Security\Guard;
 use Spiral\Security\PermissionsInterface;
 use Spiral\Security\RuleInterface;
 
-final class GuardTest extends TestCase
+class GuardTest extends TestCase
 {
     public const OPERATION = 'test';
     public const CONTEXT = [];
 
-    private MockObject&PermissionsInterface $permission;
-    private \PHPUnit\Framework\MockObject\Stub&ActorInterface $actor;
-    private array $roles = ['user', 'admin'];
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|PermissionsInterface
+     */
+    private $permission;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface
+     */
+    private $actor;
+
+    /**
+     * @var array
+     */
+    private $roles = ['user', 'admin'];
+
+    public function setUp(): void
+    {
+        $this->permission = $this->createMock(PermissionsInterface::class);
+        $this->actor = $this->createMock(ActorInterface::class);
+    }
 
     public function testAllows(): void
     {
         $this->permission->method('hasRole')
-            ->willReturnCallback(static function (...$args): bool {
+            ->willReturnCallback(function (...$args) {
                 static $series = [
                     [['user'], false],
                     [['admin'], true],
@@ -37,15 +53,15 @@ final class GuardTest extends TestCase
             });
 
         $rule = $this->createMock(RuleInterface::class);
-        $rule->expects(self::once())
+        $rule->expects($this->once())
             ->method('allows')
-            ->with($this->actor, self::OPERATION, [])->willReturn(true);
+            ->with($this->actor, static::OPERATION, [])->willReturn(true);
 
         $this->permission->method('getRule')
             ->willReturn($rule);
 
         $guard = new Guard($this->permission, $this->actor, $this->roles);
-        self::assertTrue($guard->allows(self::OPERATION, self::CONTEXT));
+        $this->assertTrue($guard->allows(static::OPERATION, static::CONTEXT));
     }
 
     public function testAllowsPermissionsHasNoRole(): void
@@ -53,7 +69,7 @@ final class GuardTest extends TestCase
         $this->permission->method('hasRole')->with($this->anything())->willReturn(false);
 
         $guard = new Guard($this->permission, $this->actor, $this->roles);
-        self::assertFalse($guard->allows(self::OPERATION, self::CONTEXT));
+        $this->assertFalse($guard->allows(static::OPERATION, static::CONTEXT));
     }
 
     public function testAllowsNoActor(): void
@@ -61,7 +77,7 @@ final class GuardTest extends TestCase
         $guard = new Guard($this->permission, null, $this->roles);
 
         $this->expectException(GuardException::class);
-        $guard->allows(self::OPERATION, self::CONTEXT);
+        $guard->allows(static::OPERATION, static::CONTEXT);
     }
 
     public function testWithActor(): void
@@ -69,8 +85,8 @@ final class GuardTest extends TestCase
         $guard = new Guard($this->permission);
         $guardWithActor = $guard->withActor($this->actor);
 
-        self::assertEquals($this->actor, $guardWithActor->getActor());
-        self::assertNotEquals($guard, $guardWithActor);
+        $this->assertEquals($this->actor, $guardWithActor->getActor());
+        $this->assertNotEquals($guard, $guardWithActor);
     }
 
     public function testWithRoles(): void
@@ -78,13 +94,7 @@ final class GuardTest extends TestCase
         $guard = new Guard($this->permission, $this->actor);
         $guardWithRoles = $guard->withRoles($this->roles);
 
-        self::assertEquals($this->roles, $guardWithRoles->getRoles());
-        self::assertNotEquals($guard, $guardWithRoles);
-    }
-
-    protected function setUp(): void
-    {
-        $this->permission = $this->createMock(PermissionsInterface::class);
-        $this->actor = $this->createStub(ActorInterface::class);
+        $this->assertEquals($this->roles, $guardWithRoles->getRoles());
+        $this->assertNotEquals($guard, $guardWithRoles);
     }
 }

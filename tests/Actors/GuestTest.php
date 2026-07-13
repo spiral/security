@@ -8,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Actor\Guest;
 
-final class GuestTest extends TestCase
+class GuestTest extends TestCase
 {
     public function testGetRoles(): void
     {
         /** @var ActorInterface $actor */
         $actor = new Guest();
 
-        self::assertEquals([Guest::ROLE], $actor->getRoles());
+        $this->assertEquals([Guest::ROLE], $actor->getRoles());
     }
 }

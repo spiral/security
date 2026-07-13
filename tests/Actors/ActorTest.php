@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Actor\Actor;
 
-final class ActorTest extends TestCase
+class ActorTest extends TestCase
 {
     public function testGetRoles(): void
     {
@@ -17,6 +17,6 @@ final class ActorTest extends TestCase
         /** @var ActorInterface $actor */
         $actor = new Actor($roles);
 
-        self::assertEquals($roles, $actor->getRoles());
+        $this->assertEquals($roles, $actor->getRoles());
     }
 }

@@ -7,4 +7,6 @@ namespace Spiral\Security\Exception;
 /**
  * Exceptions relation to role management.
  */
-class RoleException extends GuardException {}
+class RoleException extends GuardException
+{
+}

@@ -7,4 +7,6 @@ namespace Spiral\Security\Exception;
 /**
  * Rule specific exception.
  */
-class RuleException extends GuardException {}
+class RuleException extends GuardException
+{
+}

@@ -8,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
 use Spiral\Security\Actor\NullActor;
 
-final class NullActorTest extends TestCase
+class NullActorTest extends TestCase
 {
     public function testGetRoles(): void
     {
         /** @var ActorInterface $actor */
         $actor = new NullActor();
 
-        self::assertEquals([], $actor->getRoles());
+        $this->assertEquals([], $actor->getRoles());
     }
 }

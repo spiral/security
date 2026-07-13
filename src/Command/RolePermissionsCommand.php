@@ -14,9 +14,11 @@ class RolePermissionsCommand extends Command
 {
     protected const NAME = 'security:role:permissions';
     protected const DESCRIPTION = 'Get Role(s) Permissions';
+
     protected const ARGUMENTS = [
         ['role', InputArgument::OPTIONAL, 'Role to get permissions'],
     ];
+
     private const TABLE_HEADERS = ['role', 'permission', 'rule', 'allowed'];
 
     /**
@@ -39,7 +41,7 @@ class RolePermissionsCommand extends Command
                 /** @noinspection SlowArrayOperationsInLoopInspection */
                 $rows = \array_merge(
                     $this->getRolePermissions($role, $rbac),
-                    $rows,
+                    $rows
                 );
             }
         }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Spiral\Tests\Security\Rules;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls;
 use PHPUnit\Framework\TestCase;
 use Spiral\Security\ActorInterface;
@@ -14,12 +13,33 @@ use Spiral\Security\RulesInterface;
 use Spiral\Tests\Security\Rules\Fixtures\AllCompositeRule;
 use Spiral\Tests\Security\Rules\Fixtures\OneCompositeRule;
 
-final class CompositeRuleTest extends TestCase
+class CompositeRuleTest extends TestCase
 {
     public const OPERATION = 'test';
     public const CONTEXT = [];
 
-    private \PHPUnit\Framework\MockObject\Stub&ActorInterface $actor;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|ActorInterface $callable
+     */
+    private $actor;
+
+    public function setUp(): void
+    {
+        $this->actor = $this->createMock(ActorInterface::class);
+    }
+
+    #[DataProvider('allowsProvider')]
+    public function testAllow(bool $expected, string $compositeRuleClass, array $rules): void
+    {
+        $repository = $this->createRepository($rules);
+
+        /** @var RuleInterface $rule */
+        $rule = new $compositeRuleClass($repository);
+        $this->assertEquals(
+            $expected,
+            $rule->allows($this->actor, static::OPERATION, static::CONTEXT)
+        );
+    }
 
     public static function allowsProvider(): \Traversable
     {
@@ -33,19 +53,20 @@ final class CompositeRuleTest extends TestCase
         yield [false, OneCompositeRule::class, [$forbidRule, $forbidRule, $forbidRule]];
     }
 
-    #[DataProvider('allowsProvider')]
-    public function testAllow(bool $expected, string $compositeRuleClass, array $rules): void
+    /**
+     * @param array $rules
+     *
+     * @return RulesInterface
+     */
+    private function createRepository(array $rules): RulesInterface
     {
-        $repository = $this->createRepository($rules);
+        /** @var \PHPUnit_Framework_MockObject_MockObject|RulesInterface $repository */
+        $repository = $this->createMock(RulesInterface::class);
 
-        /** @var RuleInterface $rule */
-        $rule = new $compositeRuleClass($repository);
-        self::assertEquals($expected, $rule->allows($this->actor, self::OPERATION, self::CONTEXT));
-    }
+        $repository->method('get')
+            ->will(new ConsecutiveCalls($rules));
 
-    protected function setUp(): void
-    {
-        $this->actor = $this->createStub(ActorInterface::class);
+        return $repository;
     }
 
     private static function allowRule(): RuleInterface
@@ -62,16 +83,5 @@ final class CompositeRuleTest extends TestCase
         $rule->shouldReceive('allows')->andReturnFalse();
 
         return $rule;
-    }
-
-    private function createRepository(array $rules): RulesInterface
-    {
-        /** @var MockObject|RulesInterface $repository */
-        $repository = $this->createMock(RulesInterface::class);
-
-        $repository->method('get')
-            ->will(new ConsecutiveCalls($rules));
-
-        return $repository;
     }
 }

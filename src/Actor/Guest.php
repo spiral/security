@@ -15,6 +15,6 @@ final class Guest implements ActorInterface
 
     public function getRoles(): array
     {
-        return [self::ROLE];
+        return [static::ROLE];
     }
 }

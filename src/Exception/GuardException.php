@@ -7,4 +7,6 @@ namespace Spiral\Security\Exception;
 /**
  * Generic RBAC exception.
  */
-class GuardException extends SecurityException {}
+class GuardException extends SecurityException
+{
+}

@@ -14,7 +14,7 @@ use Spiral\Security\Rule\AllowRule;
  *
  * @package Spiral\Tests\Security\Rules
  */
-final class AllowRuleTest extends TestCase
+class AllowRuleTest extends TestCase
 {
     public const OPERATION = 'test';
     public const CONTEXT = [];
@@ -24,8 +24,8 @@ final class AllowRuleTest extends TestCase
         /** @var RuleInterface $rule */
         $rule = new AllowRule();
         /** @var ActorInterface $actor */
-        $actor = $this->createStub(ActorInterface::class);
+        $actor = $this->createMock(ActorInterface::class);
 
-        self::assertTrue($rule->allows($actor, self::OPERATION, self::CONTEXT));
+        $this->assertTrue($rule->allows($actor, static::OPERATION, static::CONTEXT));
     }
 }
