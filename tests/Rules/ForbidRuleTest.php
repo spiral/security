@@ -14,7 +14,7 @@ use Spiral\Security\Rule\ForbidRule;
  *
  * @package Spiral\Tests\Security\Rules
  */
-class ForbidRuleTest extends TestCase
+final class ForbidRuleTest extends TestCase
 {
     public const OPERATION = 'test';
     public const CONTEXT = [];
@@ -24,8 +24,8 @@ class ForbidRuleTest extends TestCase
         /** @var RuleInterface $rule */
         $rule = new ForbidRule();
         /** @var ActorInterface $actor */
-        $actor = $this->createMock(ActorInterface::class);
+        $actor = $this->createStub(ActorInterface::class);
 
-        $this->assertFalse($rule->allows($actor, static::OPERATION, static::CONTEXT));
+        self::assertFalse($rule->allows($actor, self::OPERATION, self::CONTEXT));
     }
 }

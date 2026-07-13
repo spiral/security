@@ -9,7 +9,7 @@ use Spiral\Security\ActorInterface;
 use Spiral\Security\RuleInterface;
 use Spiral\Security\Rule\CallableRule;
 
-class CallableRuleTest extends TestCase
+final class CallableRuleTest extends TestCase
 {
     public const OPERATION = 'test';
     public const CONTEXT = [];
@@ -17,22 +17,22 @@ class CallableRuleTest extends TestCase
     public function testAllow(): void
     {
         /** @var ActorInterface $actor */
-        $actor = $this->createMock(ActorInterface::class);
+        $actor = $this->createStub(ActorInterface::class);
         $context = [];
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|callable $callable */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|callable $callable */
         $callable = $this->getMockBuilder(\stdClass::class)
             ->addMethods(['__invoke'])
             ->getMock();
 
         $callable->method('__invoke')
-            ->with($actor, static::OPERATION, $context)
+            ->with($actor, self::OPERATION, $context)
             ->willReturn(true, false);
 
         /** @var RuleInterface $rule */
         $rule = new CallableRule($callable);
 
-        $this->assertTrue($rule->allows($actor, static::OPERATION, $context));
-        $this->assertFalse($rule->allows($actor, static::OPERATION, $context));
+        self::assertTrue($rule->allows($actor, self::OPERATION, $context));
+        self::assertFalse($rule->allows($actor, self::OPERATION, $context));
     }
 }

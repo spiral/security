@@ -36,9 +36,8 @@ abstract class Rule implements RuleInterface
     ];
 
     public function __construct(
-        protected ResolverInterface $resolver
-    ) {
-    }
+        protected ResolverInterface $resolver,
+    ) {}
 
     /**
      * @throws RuleException
@@ -61,7 +60,7 @@ abstract class Rule implements RuleInterface
         try {
             return $method->invokeArgs($this, $this->resolver->resolveArguments($method, $parameters));
         } catch (\Throwable $e) {
-            throw new RuleException(\sprintf('[%s] %s', $this::class, $e->getMessage()), (int) $e->getCode(), $e);
+            throw new RuleException(\sprintf('[%s] %s', static::class, $e->getMessage()), (int) $e->getCode(), $e);
         }
     }
 }

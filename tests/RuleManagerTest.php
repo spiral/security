@@ -10,16 +10,18 @@ use Psr\Container\ContainerInterface;
 use Spiral\Security\Exception\RuleException;
 use Spiral\Security\RuleInterface;
 use Spiral\Security\RuleManager;
-use Spiral\Security\Rule\CallableRule;
 
 /**
  * Class RuleManagerTest
  *
  * @package Spiral\Tests\Security
  */
-class RuleManagerTest extends TestCase
+final class RuleManagerTest extends TestCase
 {
-    public const RULE_NAME = 'test';
+    // Not a valid/loadable class name on purpose: RuleManager::has() calls
+    // class_exists() (case-insensitive, with autoload), so a plain word like
+    // "test" could collide with a global class loaded elsewhere in the suite.
+    public const RULE_NAME = 'test-rule';
 
     /** @var ContainerInterface */
     private $container;
@@ -27,15 +29,9 @@ class RuleManagerTest extends TestCase
     /** @var RuleInterface */
     private $rule;
 
-    public function setUp(): void
-    {
-        $this->container = m::mock(ContainerInterface::class);
-        $this->rule = m::mock(RuleInterface::class);
-    }
-
     public function testFlow(): void
     {
-        $ruleClass = get_class($this->rule);
+        $ruleClass = $this->rule::class;
 
         $this->container->shouldReceive('get')
             ->once()
@@ -44,28 +40,26 @@ class RuleManagerTest extends TestCase
 
         $manager = new RuleManager($this->container);
 
-        $this->assertEquals($manager, $manager->set(self::RULE_NAME, $ruleClass));
-        $this->assertTrue($manager->has(self::RULE_NAME));
-        $this->assertEquals($this->rule, $manager->get(self::RULE_NAME));
-        $this->assertEquals($manager, $manager->remove(self::RULE_NAME));
+        self::assertEquals($manager, $manager->set(self::RULE_NAME, $ruleClass));
+        self::assertTrue($manager->has(self::RULE_NAME));
+        self::assertEquals($this->rule, $manager->get(self::RULE_NAME));
+        self::assertEquals($manager, $manager->remove(self::RULE_NAME));
 
         // other rule types
         $manager->set('RuleInterface', $this->rule);
-        $this->assertEquals($this->rule, $manager->get('RuleInterface'));
-        $manager->set('Closure', function () {
-            return true;
-        });
-        $this->assertTrue($manager->get('Closure') instanceof CallableRule);
-        $manager->set('Array', [$this, 'testFlow']);
-        $this->assertTrue($manager->get('Array') instanceof CallableRule);
+        self::assertEquals($this->rule, $manager->get('RuleInterface'));
+        $manager->set('Closure', static fn(): bool => true);
+        self::assertInstanceOf(\Spiral\Security\Rule\CallableRule::class, $manager->get('Closure'));
+        $manager->set('Array', $this->testFlow(...));
+        self::assertInstanceOf(\Spiral\Security\Rule\CallableRule::class, $manager->get('Array'));
     }
 
     public function testHasWithNotRegisteredClass(): void
     {
-        $ruleClass = get_class($this->rule);
+        $ruleClass = $this->rule::class;
         $manager = new RuleManager($this->container);
 
-        $this->assertTrue($manager->has($ruleClass));
+        self::assertTrue($manager->has($ruleClass));
     }
 
     public function testSetRuleException(): void
@@ -97,7 +91,7 @@ class RuleManagerTest extends TestCase
         $manager = new RuleManager($this->container);
 
         $this->expectException(RuleException::class);
-        $manager->get(static::RULE_NAME);
+        $manager->get(self::RULE_NAME);
     }
 
     public function testGetWithSomethingOtherThanRule(): void
@@ -109,11 +103,17 @@ class RuleManagerTest extends TestCase
 
         $this->container->shouldReceive('get')
             ->with($ruleClass)
-            ->andReturn(new $ruleClass);
+            ->andReturn(new $ruleClass());
 
         $manager = new RuleManager($this->container);
 
         $this->expectException(RuleException::class);
         $manager->get($ruleClass);
+    }
+
+    protected function setUp(): void
+    {
+        $this->container = m::mock(ContainerInterface::class);
+        $this->rule = m::mock(RuleInterface::class);
     }
 }
