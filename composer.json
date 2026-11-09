@@ -2,7 +2,6 @@
     "name": "spiral/security",
     "type": "library",
     "description": "Spiral, RBAC security layer",
-    "keywords": ["spiral", "security", "rbac", "permissions", "guard"],
     "license": "MIT",
     "funding": [
         {
@@ -34,9 +33,9 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
-        "spiral/core": "^3.18.1",
-        "spiral/hmvc": "^3.18.1"
+        "php": ">=8.1",
+        "spiral/core": "^3.18.2",
+        "spiral/hmvc": "^3.18.2"
     },
     "autoload": {
         "psr-4": {
@@ -44,10 +43,10 @@
         }
     },
     "require-dev": {
-        "spiral/console": "^3.18.1",
+        "spiral/console": "^3.18.2",
         "phpunit/phpunit": "^10.5.41",
         "mockery/mockery": "^1.6.12",
-        "vimeo/psalm": "^7.0.2"
+        "vimeo/psalm": "^6.0"
     },
     "autoload-dev": {
         "psr-4": {
